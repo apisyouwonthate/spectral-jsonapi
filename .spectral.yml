@@ -55,18 +55,11 @@ aliases:
     - "$.paths..patch.requestBody.content[application/vnd.api+json].schema.properties.data.properties[relationships].properties[*]"
     - "$.paths..patch.requestBody.content[application/vnd.api+json].schema.properties.data.allOf[*].properties[relationships].properties[*]"
 
-  SingleErrorResponses:
-    - "$.paths..responses[?(@property > '400' && @property < '500')].content[application/vnd.api+json].schema.properties.errors"
-    - "$.paths..responses[?(@property > '500' && @property < '600')].content[application/vnd.api+json].schema.properties.errors"
-    - "$.paths..responses[default].content[application/vnd.api+json].schema.properties.errors"
-  
   ErrorObjects:
     - "$.paths..responses[default,400,500].content[application/vnd.api+json].schema.properties.errors.items.properties"
     - "$.paths..responses[default,400,500].content[application/vnd.api+json].schema.properties.errors.items.allOf[*].properties"
-    - "$.paths..responses[?(@property > '400' && @property < '500')].content[application/vnd.api+json].schema.properties.errors.items.properties"
-    - "$.paths..responses[?(@property > '400' && @property < '500')].content[application/vnd.api+json].schema.properties.errors.items.allOf[*].properties"
-    - "$.paths..responses[?(@property > '500' && @property < '600')].content[application/vnd.api+json].schema.properties.errors.items.properties"
-    - "$.paths..responses[?(@property > '500' && @property < '600')].content[application/vnd.api+json].schema.properties.errors.items.allOf[*].properties"
+    - "$.paths..responses[?(@property > '400' && @property < '600')].content[application/vnd.api+json].schema.properties.errors.items.properties"
+    - "$.paths..responses[?(@property > '400' && @property < '600')].content[application/vnd.api+json].schema.properties.errors.items.allOf[*].properties"
 
 rules:
 
