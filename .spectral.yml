@@ -1228,14 +1228,14 @@ rules:
 # Section 6.2 Responses Codes - 200, 404
 # ---------------------------------------------------------------------------
 
-  get-200-response-code:
+  fetching-resource-200:
     description: |-
       `GET` requests **MUST** support response code 200
       
       **Invalid Example:**
       ```YAML
       paths:
-        /myResources/{id}:
+        /tickets/{id}:
           get:
             responses:
               '404':
@@ -1245,11 +1245,11 @@ rules:
       **Valid Examples:**
       ```YAML
       paths:
-        /myResources/{id}:
+        /tickets/{id}:
           get:
             responses:
               '200':
-                $ref: '#/components/responses/MyResource_Single'
+                $ref: '#/components/responses/Ticket'
               '404':
                 $ref: '#/components/responses/404Error'
       ```
@@ -1263,7 +1263,45 @@ rules:
       field: "200"
       function: truthy
 
-# TODO:// verify a 404 response exists on a GET request that returns a single resource
+  fetching-resource-404:
+    description: |-
+      `GET` requests to single resource endpoints **MUST** support response code 404
+
+      Per the JSON:API specification, a server MUST respond with 404 Not Found when
+      processing a request to fetch a single resource that does not exist.
+
+      Single resource endpoints are identified by a path parameter (e.g. `{id}`).
+
+      **Invalid Example:**
+      ```YAML
+      paths:
+        /tickets/{id}:
+          get:
+            responses:
+              '200':
+                $ref: '#/components/responses/Ticket'
+      ```
+
+      **Valid Example:**
+      ```YAML
+      paths:
+        /tickets/{id}:
+          get:
+            responses:
+              '200':
+                $ref: '#/components/responses/Ticket'
+              '404':
+                $ref: '#/components/responses/404Error'
+      ```
+
+      Related specification information can be found [here](https://jsonapi.org/format/1.0/#fetching-resources-responses).
+    documentationUrl: "https://jsonapi.org/format/1.0/#fetching-resources-responses"
+    message: "GET paths for single resources must support response code: 404"
+    severity: error
+    given: "$.paths[*][get].responses"
+    then:
+      field: "404"
+      function: truthy
 
 # ---------------------------------------------------------------------------
 # Section 6.3 Fetching Resources - Inclusion of Related Resources
