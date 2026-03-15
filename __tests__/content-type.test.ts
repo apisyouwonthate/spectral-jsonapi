@@ -74,7 +74,8 @@ testRule("content-type", [
     },
     errors: [
       {
-        message: "content MUST be 'application/vnd.api+json'",
+        message:
+          "content type MUST be 'application/vnd.api+json' for all requests and responses",
         path: [
           "paths",
           "/items",
