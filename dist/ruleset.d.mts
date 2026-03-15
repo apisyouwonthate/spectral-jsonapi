@@ -1,5 +1,6 @@
 import * as _stoplight_spectral_functions from '@stoplight/spectral-functions';
 import * as _stoplight_spectral_core from '@stoplight/spectral-core';
+import { DiagnosticSeverity } from '@stoplight/types';
 
 declare const _default: {
     description: string;
@@ -21,7 +22,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string[];
             then: {
                 field: string;
@@ -35,7 +36,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -46,7 +47,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -57,7 +58,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -71,7 +72,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -154,7 +155,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string[];
             then: ({
                 field: string;
@@ -172,7 +173,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -183,7 +184,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string[];
             then: {
                 field: string;
@@ -197,7 +198,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -208,7 +209,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -222,7 +223,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -233,7 +234,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 function: _stoplight_spectral_core.RulesetFunctionWithValidator<string, _stoplight_spectral_functions.PatternOptions>;
@@ -246,7 +247,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -260,7 +261,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: ({
                 field: string;
@@ -333,7 +334,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string[];
             then: {
                 field: string;
@@ -347,7 +348,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string[];
             then: {
                 function: _stoplight_spectral_core.RulesetFunctionWithValidator<unknown, _stoplight_spectral_functions.SchemaOptions>;
@@ -393,7 +394,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -407,7 +408,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -421,7 +422,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -435,7 +436,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: ({
                 field: string;
@@ -453,7 +454,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: ({
                 field: string;
@@ -471,7 +472,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -482,7 +483,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -492,7 +493,7 @@ declare const _default: {
         "400-response-code": {
             description: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -503,7 +504,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: ({
                 field: string;
@@ -548,7 +549,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: ({
                 field: string;
@@ -584,7 +585,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: ({
                 field: string;
@@ -629,7 +630,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: ({
                 field: string;
@@ -710,7 +711,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 function: _stoplight_spectral_core.RulesetFunctionWithValidator<unknown, null>;
@@ -720,7 +721,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -741,7 +742,7 @@ declare const _default: {
         "403-response-code": {
             description: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -752,7 +753,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -763,7 +764,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -785,7 +786,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 function: _stoplight_spectral_core.RulesetFunctionWithValidator<unknown, _stoplight_spectral_functions.SchemaOptions>;
@@ -804,7 +805,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -815,7 +816,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -826,7 +827,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 function: _stoplight_spectral_core.RulesetFunctionWithValidator<unknown, null>;
@@ -836,7 +837,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 function: _stoplight_spectral_core.RulesetFunctionWithValidator<unknown, null>;
@@ -846,7 +847,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -868,7 +869,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 function: _stoplight_spectral_core.RulesetFunctionWithValidator<unknown, _stoplight_spectral_functions.SchemaOptions>;
@@ -887,7 +888,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -898,7 +899,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -909,7 +910,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -920,7 +921,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 function: _stoplight_spectral_core.RulesetFunctionWithValidator<unknown, _stoplight_spectral_functions.SchemaOptions>;
@@ -939,7 +940,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -950,7 +951,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -964,7 +965,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;
@@ -975,7 +976,7 @@ declare const _default: {
             description: string;
             documentationUrl: string;
             message: string;
-            severity: string;
+            severity: DiagnosticSeverity;
             given: string;
             then: {
                 field: string;

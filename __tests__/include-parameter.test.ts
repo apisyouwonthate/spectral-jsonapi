@@ -1,3 +1,4 @@
+import { DiagnosticSeverity } from "@stoplight/types";
 import testRule from "./__helpers__/helper";
 import { base } from "./__helpers__/fixtures";
 
@@ -23,7 +24,13 @@ testRule("include-parameter", [
         },
       },
     },
-    errors: [{}],
+    errors: [
+      {
+        message: "include must be a query parameter using CSV array style.",
+        path: ["paths", "/articles", "get", "parameters", "0", "explode"],
+        severity: DiagnosticSeverity.Error,
+      },
+    ],
   },
   {
     name: "include supports dotted relationship paths",

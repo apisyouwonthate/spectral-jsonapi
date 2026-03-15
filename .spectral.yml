@@ -76,8 +76,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#content-negotiation-servers).
     documentationUrl: https://jsonapi.org/format/1.1/#content-negotiation
-    message: content type MUST be 'application/vnd.api+json' for all requests and responses
-    severity: error
+    message: Use application/vnd.api+json for all request and response bodies.
+    severity: 0
     given:
       - $.paths..requestBody.content
       - $.paths..responses..content
@@ -88,7 +88,7 @@ rules:
         match: ^application/vnd\.api\+json;?
   406-response-code:
     description: |-
-      Servers **MUST** document and support response code **406** paths in case of invalid `ACCEPT` media values.
+      Servers **MUST** describe response code **406** paths in case of invalid `Accept` values.
 
       **Invalid Example:**
       ```yaml
@@ -114,15 +114,15 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#content-negotiation-servers).
     documentationUrl: https://jsonapi.org/format/1.1/#content-negotiation-servers
-    message: "All paths must support response codes: 406"
-    severity: error
+    message: Document a 406 response for invalid Accept headers.
+    severity: 0
     given: $.paths..responses
     then:
       field: "406"
       function: truthy
   415-response-code:
     description: |-
-      Servers **MUST** document and support response code **415** on `POST` or `PATCH` paths in case of invalid `Content-Type` media values.
+      Servers **MUST** describe response code **415** on `POST` or `PATCH` paths in case of invalid `Content-Type` values.
 
       **Invalid Example:**
       ```yaml
@@ -148,15 +148,15 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#content-negotiation-servers).
     documentationUrl: https://jsonapi.org/format/1.1/#content-negotiation-servers
-    message: "POST and PATCH paths must support response code: 415"
-    severity: error
+    message: Document a 415 response for invalid Content-Type headers on POST and PATCH.
+    severity: 0
     given: $.paths[*][post,patch].responses
     then:
       field: "415"
       function: truthy
   top-level-json-object:
     description: |-
-      A JSON object **MUST** be at the root of every JSON:API request/response body containing data
+      A JSON object **MUST** be at the root of every JSON:API request/response body containing data.
 
       **Valid Example:**
       ```yaml
@@ -168,8 +168,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-top-level).
     documentationUrl: https://jsonapi.org/format/1.1/#document-top-level
-    message: Request/response body must be wrapped in root level JSON object
-    severity: error
+    message: Request and response bodies must have a top-level JSON object.
+    severity: 0
     given: "#AllContentSchemas"
     then:
       field: type
@@ -179,12 +179,12 @@ rules:
           - object
   top-level-json-properties:
     description: |-
-      Root JSON object **MUST** follow the jsonapi schema
+      Root JSON object **MUST** follow the jsonapi schema.
 
       **Schema Rules:**
       - **MUST** contain at least one of: `data`, `errors`, `meta` properties
       - `data` and `errors` **MAY NOT** coexist in the same document
-      - **MAY** contain: `jsonapi`,`links`,`included`
+      - **MAY** contain: `jsonapi`, `links`, `included`
       - if `included` exists, `data` is **REQUIRED**
 
       **Invalid Examples:**
@@ -225,8 +225,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-top-level).
     documentationUrl: https://jsonapi.org/format/1.1/#document-top-level
-    message: Root JSON object MUST follow the jsonapi schema
-    severity: error
+    message: Top-level documents must include data, errors, or meta and follow JSON:API member rules.
+    severity: 0
     given: "#AllContentSchemas"
     then:
       field: properties
@@ -298,7 +298,7 @@ rules:
     description: |-
       Verify allowed properties in Resource Objects
 
-      **Allowed properties:** `id`,`type`,`attributes`,`relationships`,`links`,`meta`
+      **Allowed properties:** `id`, `type`, `attributes`, `relationships`, `links`, and `meta`.
 
       **Invalid Example:**
       ```yaml
@@ -345,8 +345,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-objects).
     documentationUrl: https://jsonapi.org/format/1.1/#document-resource-objects
-    message: "'data' objects/items MUST meet Resource Object restrictions"
-    severity: error
+    message: Resource objects may only use id, type, attributes, relationships, links, and meta.
+    severity: 0
     given:
       - "#ResourceObjects"
       - "#POSTResourceObjects"
@@ -391,8 +391,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-objects).
     documentationUrl: https://jsonapi.org/format/1.1/#document-resource-objects
-    message: Could be missing 'id' property. Please verify the resource.
-    severity: warn
+    message: Resource objects should include an id property.
+    severity: 1
     given: "#ResourceObjects"
     then:
       field: id
@@ -432,8 +432,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-identification).
     documentationUrl: https://jsonapi.org/format/1.1/#document-resource-object-identification
-    message: "'id' and 'type' MUST be of type 'string'"
-    severity: error
+    message: Resource object id and type must both be strings.
+    severity: 0
     given:
       - "#ResourceObjects.id"
       - "#ResourceObjects.type"
@@ -504,8 +504,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-fields).
     documentationUrl: https://jsonapi.org/format/1.1/#document-resource-object-fields
-    message: "'id' and 'type' MUST NOT exist in 'attributes' or 'relationships'"
-    severity: error
+    message: Do not define id or type inside attributes or relationships.
+    severity: 0
     given: "#AllContentSchemas..properties[attributes,relationships].properties"
     then:
       - field: id
@@ -536,8 +536,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-attributes).
     documentationUrl: https://jsonapi.org/format/1.1/#document-resource-object-attributes
-    message: The value of 'attributes' property MUST be an object
-    severity: error
+    message: attributes must be an object.
+    severity: 0
     given: "#AllContentSchemas..properties[attributes]"
     then:
       field: type
@@ -595,8 +595,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-attributes).
     documentationUrl: https://jsonapi.org/format/1.1/#document-resource-object-attributes
-    message: Attributes object MUST NOT contain a 'relationships' or 'links' property
-    severity: error
+    message: attributes must not contain links or relationships.
+    severity: 0
     given: "#AllContentSchemas..properties[attributes]..properties"
     then:
       - field: relationships
@@ -659,8 +659,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-attributes).
     documentationUrl: https://jsonapi.org/format/1.1/#document-resource-object-attributes
-    message: Foreign key? If so, it would be better to remove and use a relationship.
-    severity: info
+    message: attributes should not include *_id foreign keys; model links with relationships.
+    severity: 2
     given: "#AllContentSchemas..properties[attributes]..properties[*]~"
     then:
       function: pattern
@@ -684,8 +684,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-relationships).
     documentationUrl: https://jsonapi.org/format/1.1/#document-resource-object-relationships
-    message: Relationships MUST be an object
-    severity: error
+    message: relationships must be an object.
+    severity: 0
     given: "#Relationships"
     then:
       field: type
@@ -735,8 +735,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-relationships).
     documentationUrl: https://jsonapi.org/format/1.1/#document-resource-object-relationships
-    message: relationship object MUST follow the schema
-    severity: error
+    message: Each relationship object must include links, data, or meta and match JSON:API structure.
+    severity: 0
     given: "#Relationships.properties[*]"
     then:
       - field: type
@@ -836,8 +836,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-identifier-objects).
     documentationUrl: https://jsonapi.org/format/1.1/#document-resource-identifier-objects
-    message: "relationship data May only contain: 'id', 'type' and 'meta'"
-    severity: error
+    message: Relationship data may only include id, type, and meta.
+    severity: 0
     given:
       - "#RelationshipData.properties"
       - "#RelationshipData.allOf[*].properties"
@@ -894,8 +894,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-identifier-objects).
     documentationUrl: https://jsonapi.org/format/1.1/#document-resource-identifier-objects
-    message: relationship data items MUST follow schema
-    severity: error
+    message: Relationship data entries must match the resource identifier schema.
+    severity: 0
     given:
       - "#RelationshipData.properties"
       - "#RelationshipData.allOf[0].properties"
@@ -952,8 +952,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-meta).
     documentationUrl: https://jsonapi.org/format/1.1/#document-meta
-    message: "'meta' property MUST be of type object"
-    severity: error
+    message: meta must be an object.
+    severity: 0
     given: "#MetaObjects"
     then:
       field: type
@@ -981,8 +981,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-links).
     documentationUrl: https://jsonapi.org/format/1.1/#document-links
-    message: "'links' property MUST be an object"
-    severity: error
+    message: links must be an object.
+    severity: 0
     given: "#LinkObjects"
     then:
       field: type
@@ -1027,8 +1027,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-links).
     documentationUrl: https://jsonapi.org/format/1.1/#document-links
-    message: "'link' properties must be of type string or object"
-    severity: error
+    message: Each link value must be a string URL or a link object.
+    severity: 0
     given: "#LinkObjects.properties[*]..[?(@property === 'type')]^"
     then:
       field: type
@@ -1085,8 +1085,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-links).
     documentationUrl: https://jsonapi.org/format/1.1/#document-links
-    message: objects contained within a links object MUST contain 'href' (string) and MAY contain 'meta'
-    severity: error
+    message: Link objects may only contain href and meta, and must include href.
+    severity: 0
     given: "#LinkObjects.properties..properties"
     then:
       - field: "@key"
@@ -1123,8 +1123,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-jsonapi-object).
     documentationUrl: https://jsonapi.org/format/1.1/#document-jsonapi-object
-    message: jsonapi object MUST match schema
-    severity: error
+    message: jsonapi must be an object with a string version.
+    severity: 0
     given: "#AllContentSchemas..properties[?(@property === 'jsonapi')]"
     then:
       - field: type
@@ -1172,8 +1172,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-resources-responses).
     documentationUrl: https://jsonapi.org/format/1.1/#fetching-resources-responses
-    message: "GET paths must support response code: 200"
-    severity: error
+    message: GET operations must define a 200 response.
+    severity: 0
     given: $.paths[*][get].responses
     then:
       field: "200"
@@ -1211,8 +1211,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-resources-responses).
     documentationUrl: https://jsonapi.org/format/1.1/#fetching-resources-responses
-    message: "GET paths for single resources must support response code: 404"
-    severity: error
+    message: Single-resource GET operations must define a 404 response.
+    severity: 0
     given: $.paths[*][get].responses
     then:
       field: "404"
@@ -1242,8 +1242,8 @@ rules:
               '400':
                 $ref: '#/components/responses/400Error'
       ```
-    message: "All paths must support response codes: 400"
-    severity: error
+    message: Document a 400 response for every operation.
+    severity: 0
     given: $.paths..responses
     then:
       field: "400"
@@ -1269,8 +1269,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-includes).
     documentationUrl: https://jsonapi.org/format/1.1/#fetching-includes
-    message: "'include' query param MUST be a string array (csv)"
-    severity: error
+    message: include must be a query parameter using CSV array style.
+    severity: 0
     given: $.paths..parameters[*][?(@property === 'name' && @ === 'include')]^
     then:
       - field: in
@@ -1327,8 +1327,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-sparse-fieldsets).
     documentationUrl: https://jsonapi.org/format/1.1/#fetching-sparse-fieldsets
-    message: "'fields' query param MUST be a deepObject"
-    severity: error
+    message: fields must be a query parameter using deepObject style.
+    severity: 0
     given: $.paths..parameters[*][?(@property === 'name' && @ === 'fields')]^
     then:
       - field: in
@@ -1375,8 +1375,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-sorting).
     documentationUrl: https://jsonapi.org/format/1.1/#fetching-sorting
-    message: "'sort' query param MUST be a string array (csv)"
-    severity: error
+    message: sort must be a query parameter using CSV array style.
+    severity: 0
     given: $.paths..parameters[*][?(@property === 'name' && @ === 'sort')]^
     then:
       - field: in
@@ -1461,8 +1461,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-pagination).
     documentationUrl: https://jsonapi.org/format/1.1/#fetching-pagination
-    message: "'page' query param MUST follow schema"
-    severity: error
+    message: page must be a deepObject query parameter that matches the pagination schema.
+    severity: 0
     given: $.paths..parameters[*][?(@property === 'name' && @ === 'page')]^
     then:
       - field: in
@@ -1558,8 +1558,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-creating
-    message: POST requests MAY only contain a single resource object
-    severity: error
+    message: POST request data must be a single resource object, not an array.
+    severity: 0
     given: $.paths..post.requestBody.content[application/vnd.api+json].schema.properties.data[?(@property==='type' && @ === 'array')]
     then:
       function: falsy
@@ -1595,8 +1595,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-creating
-    message: If relationships exist in POST request, 'data' is REQUIRED
-    severity: error
+    message: If POST relationships are present, they must include data.
+    severity: 0
     given: "#POSTRelationships"
     then:
       field: required
@@ -1638,8 +1638,8 @@ rules:
               '403':
                 $ref: '#/components/responses/403Error'
       ```
-    message: "All paths must support response codes: 403"
-    severity: error
+    message: Document a 403 response for every operation.
+    severity: 0
     given: $.paths..responses
     then:
       field: "403"
@@ -1664,8 +1664,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-creating-responses
-    message: A POST 201 response SHOULD return a Location header
-    severity: info
+    message: POST 201 responses should include a Location header.
+    severity: 2
     given: $.paths[*][post].responses.201.headers
     then:
       field: Location
@@ -1676,8 +1676,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-creating-responses
-    message: A POST 201 response MUST return the primary resource
-    severity: info
+    message: POST 201 responses should include primary resource data.
+    severity: 2
     given: $.paths[*][post].responses.201.content[application/vnd.api+json].schema
     then:
       field: required
@@ -1741,8 +1741,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-creating-responses
-    message: "POST requests MUST support one Of the following 2xx codes: 201, 202 or 204"
-    severity: error
+    message: "POST operations must define at least one success response: 201, 202, or 204."
+    severity: 0
     given: $.paths[*][post].responses
     then:
       function: schema
@@ -1785,8 +1785,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-creating-responses
-    message: "POST paths must support response codes: 409"
-    severity: error
+    message: POST operations must define a 409 conflict response.
+    severity: 0
     given: $.paths[*][post].responses
     then:
       field: "409"
@@ -1830,8 +1830,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-creating-responses
-    message: POST 409 response SHOULD return 'source' property to identify conflict
-    severity: info
+    message: POST 409 responses should include source to explain the conflict.
+    severity: 2
     given: $.paths[*][post].responses
     then:
       field: "409"
@@ -1854,8 +1854,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-updating
-    message: PUT verb is not allowed in jsonapi, use PATCH instead.
-    severity: error
+    message: PUT is not allowed by JSON:API; use PATCH.
+    severity: 0
     given: $.paths[*][put]
     then:
       - function: falsy
@@ -1893,8 +1893,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-creating
-    message: PATCH requests MAY only contain a single resource object
-    severity: error
+    message: PATCH request data must be a single resource object, not an array.
+    severity: 0
     given: $.paths..patch.requestBody.content[application/vnd.api+json].schema.properties.data[?(@property==='type' && @ === 'array')]
     then:
       function: falsy
@@ -1930,8 +1930,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-resource-relationships).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-creating
-    message: If relationships exist in PAST request, 'data' is REQUIRED
-    severity: error
+    message: If PATCH relationships are present, they must include data.
+    severity: 0
     given: "#PATCHRelationships"
     then:
       field: required
@@ -1994,8 +1994,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-responses).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-updating-responses
-    message: "POST requests MUST support at least one of the following 2xx codes: 200, 202 or 204"
-    severity: error
+    message: "PATCH operations must define at least one success response: 200, 202, or 204."
+    severity: 0
     given: $.paths[*][patch].responses
     then:
       function: schema
@@ -2038,8 +2038,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-responses).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-updating-responses
-    message: PATCH requests MUST support response code 404
-    severity: error
+    message: PATCH operations must define a 404 response.
+    severity: 0
     given: $.paths[*][patch].responses
     then:
       field: "404"
@@ -2072,8 +2072,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-responses).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-updating-responses
-    message: "PATCH requests MUST support response codes: 409"
-    severity: error
+    message: PATCH operations must define a 409 conflict response.
+    severity: 0
     given: $.paths[*][patch].responses
     then:
       field: "409"
@@ -2121,8 +2121,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-responses).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-updating-responses
-    message: PATCH 409 response SHOULD return 'source' property to identify conflict
-    severity: info
+    message: PATCH 409 responses should include source to explain the conflict.
+    severity: 2
     given: $.paths[*][patch].responses
     then:
       field: "409"
@@ -2173,8 +2173,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-deleting-responses).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-deleting-responses
-    message: "DELETE requests MUST support at least one of the following 2xx codes: 200, 202 or 204"
-    severity: error
+    message: "DELETE operations must define at least one success response: 200, 202, or 204."
+    severity: 0
     given: $.paths[*][delete].responses
     then:
       function: schema
@@ -2217,8 +2217,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-deleting-responses).
     documentationUrl: https://jsonapi.org/format/1.1/#crud-deleting-responses
-    message: DELETE requests MUST support response code 404
-    severity: error
+    message: DELETE operations must define a 404 response.
+    severity: 0
     given: $.paths[*][delete].responses
     then:
       field: "404"
@@ -2280,8 +2280,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#error-objects).
     documentationUrl: https://jsonapi.org/format/1.1/#error-objects
-    message: Error objects (item object) MUST follow schema
-    severity: error
+    message: Error objects must follow the JSON:API error object schema.
+    severity: 0
     given: "#ErrorObjects"
     then:
       - field: "@key"
@@ -2361,8 +2361,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#error-objects).
     documentationUrl: https://jsonapi.org/format/1.1/#error-objects
-    message: Error object links property MUST contain 'about'
-    severity: error
+    message: Error object links must include about.
+    severity: 0
     given: "#ErrorObjects.links.properties"
     then:
       - field: about
@@ -2398,8 +2398,8 @@ rules:
 
       Related specification information can be found [here](https://jsonapi.org/format/1.1/#error-objects).
     documentationUrl: https://jsonapi.org/format/1.1/#error-objects
-    message: Error object source MUST follow schema
-    severity: error
+    message: Error object source must include pointer or parameter and match schema.
+    severity: 0
     given: "#ErrorObjects.source"
     then:
       field: properties

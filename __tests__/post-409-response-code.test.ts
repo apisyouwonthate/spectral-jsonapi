@@ -1,16 +1,59 @@
+import { DiagnosticSeverity } from "@stoplight/types";
 import testRule from "./__helpers__/helper";
-import { asPostDoc } from "./__helpers__/fixtures";
+
+const invalidDocument = {
+  openapi: "3.1.0",
+  info: {
+    title: "Test",
+    version: "1.0.0",
+  },
+  paths: {
+    "/articles": {
+      post: {
+        requestBody: {
+          content: {
+            "application/vnd.api+json": {
+              schema: {
+                type: "object",
+                properties: {
+                  data: {
+                    type: "object",
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          "201": {
+            description: "created",
+          },
+        },
+      },
+    },
+  },
+};
+
+const validDocument = structuredClone(invalidDocument);
+validDocument.paths["/articles"].post.responses["409"] = {
+  description: "conflict",
+};
 
 testRule("post-409-response-code", [
   {
     name: "post missing 409 response",
-    document: asPostDoc(
+    document: invalidDocument,
+    errors: [
       {
-        type: "object",
-        properties: { data: { type: "object" } },
+        message: "POST operations must define a 409 conflict response.",
+        path: ["paths", "/articles", "post", "responses"],
+        severity: DiagnosticSeverity.Error,
       },
-      { "201": { description: "created" } },
-    ),
-    errors: [{}],
+    ],
+  },
+  {
+    name: "valid post-409-response-code case",
+    document: validDocument,
+    errors: [],
   },
 ]);

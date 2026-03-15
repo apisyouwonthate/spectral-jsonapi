@@ -1,3 +1,4 @@
+import { DiagnosticSeverity } from "@stoplight/types";
 import testRule from "./__helpers__/helper";
 import { base } from "./__helpers__/fixtures";
 
@@ -27,7 +28,24 @@ testRule("page-parameter", [
         },
       },
     },
-    errors: [{}],
+    errors: [
+      {
+        message:
+          "page must be a deepObject query parameter that matches the pagination schema.",
+        path: [
+          "paths",
+          "/articles",
+          "get",
+          "parameters",
+          "0",
+          "schema",
+          "properties",
+          "limit",
+          "type",
+        ],
+        severity: DiagnosticSeverity.Error,
+      },
+    ],
   },
   {
     name: "cursor pagination shape passes",
