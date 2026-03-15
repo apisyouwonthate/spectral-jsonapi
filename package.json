@@ -1,6 +1,6 @@
 {
   "name": "spectral-jsonapi",
-  "version": "2.0.0",
+  "version": "2.0.0-dev",
   "description": "A Spectral ruleset for JSON:API, built as TypeScript.",
   "main": "dist/ruleset.js",
   "module": "dist/ruleset.mjs",
@@ -13,10 +13,11 @@
     }
   },
   "scripts": {
-    "build": "tsup",
-    "type-check": "tsc --noEmit --noErrorTruncation --pretty false --incremental false",
+    "build:yaml": "node scripts/build-spectral-yaml.cjs",
+    "build": "tsup && npm run build:yaml",
+    "lint:examples": "spectral lint examples/valid/* -r ./dist/ruleset.js",
     "test": "jest",
-    "lint:examples": "spectral lint examples/valid/* -r ./dist/ruleset.js"
+    "type-check": "tsc --noEmit --noErrorTruncation --pretty false --incremental false"
   },
   "repository": {
     "type": "git",
