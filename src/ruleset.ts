@@ -50,17 +50,44 @@ export default {
   },
   rules: {
     "content-type": {
-      description:
-        "Clients and Servers **MUST** send all JSON:API data as Content-Type: `application/vnd.api+json` without any media type parameters.\n\n**Invalid Examples:**\n```YAML\nrequestBody:\n  content:\n    application/json\n\nresponses:\n  '200':\n    content:\n      application/json\n```\n\n**Valid Examples:**\n```YAML\nrequestBody:\n  content:\n    application/vnd.api+json\n\nresponses:\n  '200':\n    content:\n      application/vnd.api+json\n```\n\nRelated specification information can be found [here](https://jsonapi.org/format/1.1/#content-negotiation-servers).",
+      description: `
+Requests and responses **MUST** all use the content type of \`application/vnd.api+json\`.
+
+**Invalid Examples:**
+\`\`\`yaml
+requestBody:
+  content:
+    application/json
+
+responses:
+  '200':
+    content:
+      application/json
+\`\`\`
+
+**Valid Examples:**
+\`\`\`yaml
+requestBody:
+  content:
+    application/vnd.api+json
+
+responses:
+  '200':
+    content:
+      application/vnd.api+json
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#content-negotiation-servers).`,
       documentationUrl: "https://jsonapi.org/format/1.1/#content-negotiation",
-      message: "content MUST be 'application/vnd.api+json'",
+      message:
+        "content type MUST be 'application/vnd.api+json' for all requests and responses",
       severity: "error",
       given: ["$.paths..requestBody.content", "$.paths..responses..content"],
       then: {
         field: "@key",
-        function: enumeration,
+        function: pattern,
         functionOptions: {
-          values: ["application/vnd.api+json"],
+          match: "^application/vnd\\.api\\+json;?",
         },
       },
     },
