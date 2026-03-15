@@ -97,7 +97,7 @@ Related specification information can be found [here](https://jsonapi.org/format
       },
     },
     "406-response-code": {
-      description: `Servers **MUST** document and support response code **406** paths in case of invalid \`ACCEPT\` media values.
+      description: `Servers **MUST** describe response code **406** paths in case of invalid \`Accept\` values.
 
 **Invalid Example:**
 \`\`\`yaml
@@ -133,7 +133,7 @@ Related specification information can be found [here](https://jsonapi.org/format
       },
     },
     "415-response-code": {
-      description: `Servers **MUST** document and support response code **415** on \`POST\` or \`PATCH\` paths in case of invalid \`Content-Type\` media values.
+      description: `Servers **MUST** describe response code **415** on \`POST\` or \`PATCH\` paths in case of invalid \`Content-Type\` values.
 
 **Invalid Example:**
 \`\`\`yaml
@@ -169,7 +169,7 @@ Related specification information can be found [here](https://jsonapi.org/format
       },
     },
     "top-level-json-object": {
-      description: `A JSON object **MUST** be at the root of every JSON:API request/response body containing data
+      description: `A JSON object **MUST** be at the root of every JSON:API request/response body containing data.
 
 **Valid Example:**
 \`\`\`yaml
@@ -194,12 +194,12 @@ Related specification information can be found [here](https://jsonapi.org/format
       },
     },
     "top-level-json-properties": {
-      description: `Root JSON object **MUST** follow the jsonapi schema
+      description: `Root JSON object **MUST** follow the jsonapi schema.
 
 **Schema Rules:**
 - **MUST** contain at least one of: \`data\`, \`errors\`, \`meta\` properties
 - \`data\` and \`errors\` **MAY NOT** coexist in the same document
-- **MAY** contain: \`jsonapi\`,\`links\`,\`included\`
+- **MAY** contain: \`jsonapi\`, \`links\`, \`included\`
 - if \`included\` exists, \`data\` is **REQUIRED**
 
 **Invalid Examples:**
@@ -333,7 +333,7 @@ Related specification information can be found [here](https://jsonapi.org/format
     "resource-object-properties": {
       description: `Verify allowed properties in Resource Objects
 
-**Allowed properties:** \`id\`,\`type\`,\`attributes\`,\`relationships\`,\`links\`,\`meta\`
+**Allowed properties:** \`id\`, \`type\`, \`attributes\`, \`relationships\`, \`links\`, and \`meta\`.
 
 **Invalid Example:**
 \`\`\`yaml
