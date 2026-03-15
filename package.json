@@ -1,14 +1,26 @@
 {
-  "name": "spectral-jsonapi-ruleset",
-  "version": "1.0.0",
-  "description": "spectral rules for json:api",
+  "name": "spectral-jsonapi",
+  "version": "2.0.0",
+  "description": "A Spectral ruleset for JSON:API, built as TypeScript.",
+  "main": "dist/ruleset.js",
+  "module": "dist/ruleset.mjs",
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "types": "./dist/ruleset.d.ts",
+      "import": "./dist/ruleset.mjs",
+      "require": "./dist/ruleset.js"
+    }
+  },
   "scripts": {
-    "test": "./node_modules/.bin/spectral lint examples/valid/* -r ./.spectral.yml",
-    "prepare": "husky install"
+    "build": "tsup",
+    "type-check": "tsc --noEmit --noErrorTruncation --pretty false --incremental false",
+    "test": "jest",
+    "lint:examples": "spectral lint examples/valid/* -r ./dist/ruleset.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jmlue42/spectral-jsonapi-ruleset.git"
+    "url": "git+https://github.com/philsturgeon/spectral-jsonapi.git"
   },
   "keywords": [
     "style-guide",
@@ -19,19 +31,50 @@
     "ruleset",
     "jsonapi"
   ],
-  "author": "Jeff Marquez <jmlue42@gmail.com> (https://www.linkedin.com/in/jeffmarquez)",
+  "author": "Phil Sturgeon (https://philsturgeon.com)",
   "contributors": [
-    "Ali Fazal (https://ca.linkedin.com/in/ali-fazal-424904140)",
+    "Jeff Marquez (https://www.linkedin.com/in/jeffmarquez)",
+    "Ali Fazal (https://linkedin.com/in/ali-fazal-424904140)",
     "Ananya Poddar",
     "Anthony MacAllister"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jmlue42/spectral-jsonapi-ruleset/issues"
+    "url": "https://github.com/philsturgeon/spectral-jsonapi/issues"
   },
-  "homepage": "https://github.com/jmlue42/spectral-jsonapi-ruleset#readme",
+  "homepage": "https://github.com/philsturgeon/spectral-jsonapi#readme",
+  "dependencies": {
+    "@stoplight/spectral-formats": "^1.8.2",
+    "@stoplight/spectral-functions": "^1.10.1"
+  },
   "devDependencies": {
+    "@sindresorhus/tsconfig": "^5.0.0",
     "@stoplight/spectral-cli": "^6.11.0",
-    "husky": "^8.0.3"
+    "@stoplight/spectral-core": "^1.21.0",
+    "@stoplight/spectral-ref-resolver": "^1.0.5",
+    "@stoplight/types": "^14.1.1",
+    "@types/jest": "^29.5.14",
+    "jest": "^29.5.14",
+    "ts-jest": "^29.4.0",
+    "tsup": "^8.5",
+    "typescript": "^5.9"
+  },
+  "tsup": {
+    "entry": [
+      "src/ruleset.ts"
+    ],
+    "clean": true,
+    "dts": true,
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "sourcemap": true,
+    "noExternal": [
+      "@stoplight/types"
+    ],
+    "footer": {
+      "js": "module.exports = module.exports.default;"
+    }
   }
 }

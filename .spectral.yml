@@ -1,16 +1,14 @@
 description: |-
-  # [{json:api}](https://jsonapi.org/) - [v1.0](https://jsonapi.org/format/1.0/)
+  # [{json:api}](https://jsonapi.org/) - [v1.1](https://jsonapi.org/format/1.1/)
   > A Specification for Building APIs in JSON
 
-  JSON:API is a specification for how a client should request that resources be fetched or modified, and how a server should respond to those requests.
-
-  JSON:API is designed to minimize both the number of requests and the amount of data transmitted between clients and servers. This efficiency is achieved without compromising readability, flexibility, or discoverability.
+  JSON:API is a media format for building APIs in JSON, that covers how clients and servers should communicate to minimize both the number of requests and the amount of data transmitted between clients and servers. 
 
   JSON:API requires use of the JSON:API media type `application/vnd.api+json` for exchanging data.
 
 
   ---
-  This styleguide ruleset can be found on GitHub: [spectral-jsonapi-ruleset](https://github.com/jmlue42/spectral-jsonapi-ruleset)
+  This style guide / ruleset can be found on GitHub: [spectral-jsonapi](https://github.com/philsturgeon/spectral-jsonapi)
 
 extends:
   - spectral:oas
@@ -63,7 +61,7 @@ aliases:
 
 rules:
   # ---------------------------------------------------------------------------
-  # Section 4 Content Negotiation
+  # Section 6 Content Negotiation
   # ---------------------------------------------------------------------------
 
   content-type:
@@ -94,8 +92,8 @@ rules:
             application/vnd.api+json
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#content-negotiation-servers).
-    documentationUrl: "https://jsonapi.org/format/1.0/#content-negotiation"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#content-negotiation-servers).
+    documentationUrl: "https://jsonapi.org/format/1.1/#content-negotiation"
     message: "content MUST be 'application/vnd.api+json'"
     severity: error
     given:
@@ -134,8 +132,8 @@ rules:
                 $ref: '#/components/responses/406Error'
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#content-negotiation-servers).
-    documentationUrl: "https://jsonapi.org/format/1.0/#content-negotiation-servers"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#content-negotiation-servers).
+    documentationUrl: "https://jsonapi.org/format/1.1/#content-negotiation-servers"
     message: "All paths must support response codes: 406"
     severity: error
     given: "$.paths..responses"
@@ -169,8 +167,8 @@ rules:
                 $ref: '#/components/responses/415Error'
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#content-negotiation-servers).
-    documentationUrl: "https://jsonapi.org/format/1.0/#content-negotiation-servers"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#content-negotiation-servers).
+    documentationUrl: "https://jsonapi.org/format/1.1/#content-negotiation-servers"
     message: "POST and PATCH paths must support response code: 415"
     severity: error
     given: "$.paths[*][post,patch].responses"
@@ -179,8 +177,8 @@ rules:
       function: truthy
 
   # ---------------------------------------------------------------------------
-  # Section 5 Document Structure
-  # Section 5.1 Top Level Object Schema
+  # Section 7 Document Structure
+  # Section 7.1 Top Level
   # ---------------------------------------------------------------------------
 
   top-level-json-object:
@@ -195,8 +193,8 @@ rules:
             type: object
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-top-level).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-top-level"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-top-level).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-top-level"
     message: "Request/response body must be wrapped in root level JSON object"
     severity: error
     given: "#AllContentSchemas"
@@ -256,8 +254,8 @@ rules:
               type: array
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-top-level).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-top-level"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-top-level).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-top-level"
     message: "Root JSON object MUST follow the jsonapi schema"
     severity: error
     given: "#AllContentSchemas"
@@ -324,7 +322,7 @@ rules:
                     - array
 
   # ---------------------------------------------------------------------------
-  # Section 5.2 Resource Objects
+  # Section 7.2 Resource Objects
   # ---------------------------------------------------------------------------
 
   resource-object-properties:
@@ -376,8 +374,8 @@ rules:
           type: object
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-resource-objects).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-resource-objects"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-objects).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-objects"
     message: "'data' objects/items MUST meet Resource Object restrictions"
     severity: error
     given:
@@ -424,8 +422,8 @@ rules:
       **NOTE:** Currently this rule triggers against `allOf` structures unless all items have `id`. Until this is corrected it is set as a warning.
 
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-resource-objects).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-resource-objects"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-objects).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-objects"
     message: "Could be missing 'id' property. Please verify the resource."
     severity: warn
     given: "#ResourceObjects"
@@ -434,7 +432,7 @@ rules:
       function: truthy
 
   # ---------------------------------------------------------------------------
-  # Section 5.2.1 Resource Objects - Identification
+  # Section 7.2.1 Identification
   # ---------------------------------------------------------------------------
 
   resource-object-property-types:
@@ -470,8 +468,8 @@ rules:
             - resources
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-resource-object-identification).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-resource-object-identification"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-identification).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-identification"
     message: "'id' and 'type' MUST be of type 'string'"
     severity: error
     given:
@@ -486,7 +484,7 @@ rules:
           - string
 
   # ---------------------------------------------------------------------------
-  # Section 5.2.2 Resource Objects - Fields
+  # Section 7.2.2 Fields
   # ---------------------------------------------------------------------------
 
   resource-object-reserved-fields:
@@ -547,8 +545,8 @@ rules:
           type: object
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-resource-object-fields).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-resource-object-fields"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-fields).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-fields"
     message: "'id' and 'type' MUST NOT exist in 'attributes' or 'relationships'"
     severity: error
     given: "#AllContentSchemas..properties[attributes,relationships].properties"
@@ -559,7 +557,7 @@ rules:
         function: falsy
 
   # ---------------------------------------------------------------------------
-  # Section 5.2.3 Resource Objects - Attributes
+  # Section 7.2.2.1 Attributes
   # ---------------------------------------------------------------------------
 
   attributes-object-type:
@@ -584,8 +582,8 @@ rules:
           type: object
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-resource-object-attributes).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-resource-object-attributes"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-attributes).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-attributes"
     message: "The value of 'attributes' property MUST be an object"
     severity: error
     given: "#AllContentSchemas..properties[attributes]"
@@ -644,8 +642,8 @@ rules:
               example: thing that does stuff
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-resource-object-attributes).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-resource-object-attributes"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-attributes).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-attributes"
     message: "Attributes object MUST NOT contain a 'relationships' or 'links' property"
     severity: error
     given: "#AllContentSchemas..properties[attributes]..properties"
@@ -661,7 +659,7 @@ rules:
 
       Although has-one foreign keys (e.g. author_id) are often stored internally alongside other information to be represented in a resource object, these keys **SHOULD NOT** appear as attributes.
 
-      Foreign keys are supported through the use of [relationships](https://jsonapi.org/format/1.0/#document-resource-object-relationships) and [related resource links](https://jsonapi.org/format/1.0/#document-resource-object-related-resource-links).
+      Foreign keys are supported through the use of [relationships](https://jsonapi.org/format/1.1/#document-resource-object-relationships) and [related resource links](https://jsonapi.org/format/1.1/#document-resource-object-related-resource-links).
 
       **Example:** Use relationship primary data rather than foreign key.
       ```YAML
@@ -709,8 +707,8 @@ rules:
       ```
       **NOTE:** This would normally be a severity of `hint`, though this can be missed visually in vscode. Until this changes it will be a severity of `info`.
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-resource-object-attributes).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-resource-object-attributes"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-attributes).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-attributes"
     message: "Foreign key? If so, it would be better to remove and use a relationship."
     severity: info
     given: "#AllContentSchemas..properties[attributes]..properties[*]~"
@@ -720,7 +718,7 @@ rules:
         notMatch: ".*_id$"
 
   # ---------------------------------------------------------------------------
-  # Section 5.2.4 Resource Objects - Relationships (Addresses 5.2.6 and 5.3)
+  # Section 7.2.2.2 Relationships
   # ---------------------------------------------------------------------------
 
   relationships-object-type:
@@ -739,8 +737,8 @@ rules:
         type: object
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-resource-object-relationships).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-resource-object-relationships"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-relationships).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-relationships"
     message: "Relationships MUST be an object"
     severity: error
     given: "#Relationships"
@@ -797,8 +795,8 @@ rules:
                   - 'relationshipNamePlural'
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-resource-object-relationships).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-resource-object-relationships"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-relationships).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-relationships"
     message: "relationship object MUST follow the schema"
     severity: error
     given: "#Relationships.properties[*]"
@@ -894,8 +892,8 @@ rules:
           type: object
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-resource-identifier-objects).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-resource-identifier-objects"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-identifier-objects).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-identifier-objects"
     message: "relationship data May only contain: 'id', 'type' and 'meta'"
     severity: error
     given:
@@ -953,8 +951,8 @@ rules:
           type: object   
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-resource-identifier-objects).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-resource-identifier-objects"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-identifier-objects).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-identifier-objects"
     message: "relationship data items MUST follow schema"
     severity: error
     given:
@@ -993,7 +991,7 @@ rules:
                     - object
 
   # ---------------------------------------------------------------------------
-  # Section 5.5 Resource Objects - Meta Information
+  # Section 7.5 Meta Information
   # ---------------------------------------------------------------------------
 
   meta-object:
@@ -1014,8 +1012,8 @@ rules:
           type: object
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-meta).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-meta"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-meta).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-meta"
     message: "'meta' property MUST be of type object"
     severity: error
     given: "#MetaObjects"
@@ -1027,7 +1025,7 @@ rules:
           - object
 
   # ---------------------------------------------------------------------------
-  # Section 5.6 Resource Objects - Links
+  # Section 7.6 Links
   # ---------------------------------------------------------------------------
 
   links-object:
@@ -1048,8 +1046,8 @@ rules:
           type: object
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-links).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-links"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-links).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-links"
     message: "'links' property MUST be an object"
     severity: error
     given: "#LinkObjects"
@@ -1095,8 +1093,8 @@ rules:
                         type: object    
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-links).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-links"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-links).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-links"
     message: "'link' properties must be of type string or object"
     severity: error
     given: "#LinkObjects.properties[*]..[?(@property === 'type')]^"
@@ -1154,8 +1152,8 @@ rules:
                         type: object    
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-links).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-links"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-links).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-links"
     message: "objects contained within a links object MUST contain 'href' (string) and MAY contain 'meta'"
     severity: error
     given: "#LinkObjects.properties..properties"
@@ -1175,7 +1173,7 @@ rules:
             - string
 
   # ---------------------------------------------------------------------------
-  # Section 5.7 Resource Objects - JSON:API Object
+  # Section 7.7 JSON:API Object
   # ---------------------------------------------------------------------------
 
   jsonapi-object:
@@ -1197,8 +1195,8 @@ rules:
               example: '1.0'
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#document-jsonapi-object).
-    documentationUrl: "https://jsonapi.org/format/1.0/#document-jsonapi-object"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-jsonapi-object).
+    documentationUrl: "https://jsonapi.org/format/1.1/#document-jsonapi-object"
     message: "jsonapi object MUST match schema"
     severity: error
     given: "#AllContentSchemas..properties[?(@property === 'jsonapi')]"
@@ -1222,9 +1220,8 @@ rules:
             - string
 
 # ---------------------------------------------------------------------------
-# Section 6 Fetching Data
-# Section 6.1
-# Section 6.2 Responses Codes - 200, 404
+# Section 8 Fetching Data
+# Section 8.1 Fetching Resources
 # ---------------------------------------------------------------------------
 
   fetching-resource-200:
@@ -1253,8 +1250,8 @@ rules:
                 $ref: '#/components/responses/404Error'
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#fetching-resources-responses).
-    documentationUrl: "https://jsonapi.org/format/1.0/#fetching-resources-responses"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-resources-responses).
+    documentationUrl: "https://jsonapi.org/format/1.1/#fetching-resources-responses"
     message: "GET paths must support response code: 200"
     severity: error
     given: "$.paths[*][get].responses"
@@ -1293,8 +1290,8 @@ rules:
                 $ref: '#/components/responses/404Error'
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#fetching-resources-responses).
-    documentationUrl: "https://jsonapi.org/format/1.0/#fetching-resources-responses"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-resources-responses).
+    documentationUrl: "https://jsonapi.org/format/1.1/#fetching-resources-responses"
     message: "GET paths for single resources must support response code: 404"
     severity: error
     given: "$.paths[*][get].responses"
@@ -1302,8 +1299,11 @@ rules:
       field: "404"
       function: truthy
 
+  # A server MUST respond to a successful request to fetch a resource collection with
+  # an array of resource objects or an empty array ([]) as the response document’s primary data.
+
   # ---------------------------------------------------------------------------
-  # Section 6.3 Fetching Resources - Inclusion of Related Resources
+  # Section 8.2 Related Resources
   # ---------------------------------------------------------------------------
 
   400-response-code:
@@ -1357,8 +1357,8 @@ rules:
       ```
       Example query string: `/articles/1?include=comments.author,ratings`
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#fetching-includes).
-    documentationUrl: "https://jsonapi.org/format/1.0/#fetching-includes"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-includes).
+    documentationUrl: "https://jsonapi.org/format/1.1/#fetching-includes"
     message: "'include' query param MUST be a string array (csv)"
     severity: error
     given: "$.paths..parameters[*][?(@property === 'name' && @ === 'include')]^"
@@ -1399,7 +1399,7 @@ rules:
                       - string
 
   # ---------------------------------------------------------------------------
-  # Section 6.4 Fetching Resources - Sparse Fieldsets
+  # Section 8.4 Sparse Fieldsets
   # ---------------------------------------------------------------------------
 
   fields-parameter:
@@ -1420,8 +1420,8 @@ rules:
       ```
       Example query string: `/articles?fields[articles]=title,body&fields[people]=name`
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#fetching-sparse-fieldsets).
-    documentationUrl: "https://jsonapi.org/format/1.0/#fetching-sparse-fieldsets"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-sparse-fieldsets).
+    documentationUrl: "https://jsonapi.org/format/1.1/#fetching-sparse-fieldsets"
     message: "'fields' query param MUST be a deepObject"
     severity: error
     given: "$.paths..parameters[*][?(@property === 'name' && @ === 'fields')]^"
@@ -1451,7 +1451,7 @@ rules:
                   - object
 
   # ---------------------------------------------------------------------------
-  # Section 6.5 Fetching Resources - Sorting
+  # Section 8.5 Sorting
   # ---------------------------------------------------------------------------
 
   sort-parameter:
@@ -1473,8 +1473,8 @@ rules:
       ```
       Example query string: `/people?sort=-age,name`
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#fetching-sorting).
-    documentationUrl: "https://jsonapi.org/format/1.0/#fetching-sorting"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-sorting).
+    documentationUrl: "https://jsonapi.org/format/1.1/#fetching-sorting"
     message: "'sort' query param MUST be a string array (csv)"
     severity: error
     given: "$.paths..parameters[*][?(@property === 'name' && @ === 'sort')]^"
@@ -1515,7 +1515,7 @@ rules:
                       - string
 
   # ---------------------------------------------------------------------------
-  # Section 6.6 Fetching Resources - Pagination
+  # Section 8.6 Pagination
   # ---------------------------------------------------------------------------
 
   # TODO:// verify 'page' param only on collections
@@ -1565,8 +1565,8 @@ rules:
       - `/myResources?page[cursor]=fdsJ34lkjSfjsdfk&page[limit]=10`
       - `/myResources?page[offset]=2&page[limit]=10`
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#fetching-pagination).
-    documentationUrl: "https://jsonapi.org/format/1.0/#fetching-pagination"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-pagination).
+    documentationUrl: "https://jsonapi.org/format/1.1/#fetching-pagination"
     message: "'page' query param MUST follow schema"
     severity: error
     given: "$.paths..parameters[*][?(@property === 'name' && @ === 'page')]^"
@@ -1629,13 +1629,13 @@ rules:
   # TODO:// verify first,last,prev,next links only on collections
 
   # ---------------------------------------------------------------------------
-  # Section 6.7 Fetching Resources - Filtering
+  # Section 8.7 Filtering
   # ---------------------------------------------------------------------------
 
   # TODO:// verify 'filter' param only on collections
 
   # ---------------------------------------------------------------------------
-  # Section 7.1 Creating Resources
+  # Section 9.1 Creating Resources
   # ---------------------------------------------------------------------------
 
   # TODO:// support x-http-method-override: PATCH
@@ -1672,8 +1672,8 @@ rules:
                 $ref: '#/components/schemas/MyResourcePostObject'
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-creating).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-creating"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating"
     message: "POST requests MAY only contain a single resource object"
     severity: error
     given: "$.paths..post.requestBody.content[application/vnd.api+json].schema.properties.data[?(@property==='type' && @ === 'array')]"
@@ -1710,8 +1710,8 @@ rules:
                 type: object
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-creating).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-creating"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating"
     message: "If relationships exist in POST request, 'data' is REQUIRED"
     severity: error
     given: "#POSTRelationships"
@@ -1781,8 +1781,8 @@ rules:
           type: object
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-creating-responses).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-creating-responses"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating-responses"
     message: "A POST 201 response SHOULD return a Location header"
     severity: info
     given: "$.paths[*][post].responses.201.headers"
@@ -1794,8 +1794,8 @@ rules:
     description: |-
       A POST 201 response **MUST** return the primary resource
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-creating-responses).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-creating-responses"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating-responses"
     message: "A POST 201 response MUST return the primary resource"
     severity: info
     given: "$.paths[*][post].responses.201.content[application/vnd.api+json].schema"
@@ -1860,8 +1860,8 @@ rules:
                 $ref: '#/components/responses/404Error'  
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-creating-responses).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-creating-responses"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating-responses"
     message: "POST requests MUST support one Of the following 2xx codes: 201, 202 or 204"
     severity: error
     given: "$.paths[*][post].responses"
@@ -1902,8 +1902,8 @@ rules:
                 $ref: '#/components/responses/409Error'
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-creating-responses).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-creating-responses"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating-responses"
     message: "POST paths must support response codes: 409"
     severity: error
     given: "$.paths[*][post].responses"
@@ -1948,8 +1948,8 @@ rules:
       maxItems:1
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-creating-responses).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-creating-responses"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating-responses"
     message: "POST 409 response SHOULD return 'source' property to identify conflict"
     severity: info
     given: "$.paths[*][post].responses"
@@ -1958,7 +1958,7 @@ rules:
       function: falsy
 
   # ---------------------------------------------------------------------------
-  # Section 7.2 Updating Resources
+  # Section 9.2 Updating Resources
   # ---------------------------------------------------------------------------
 
   # TODO:// support x-http-method-override: PATCH
@@ -1979,8 +1979,8 @@ rules:
           patch:
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-updating).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-updating"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-updating"
     message: "PUT verb is not allowed in jsonapi, use PATCH instead."
     severity: error
     given: "$.paths[*][put]"
@@ -2019,8 +2019,8 @@ rules:
                 $ref: '#/components/schemas/MyResourcePostObject'
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-updating).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-creating"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating"
     message: "PATCH requests MAY only contain a single resource object"
     severity: error
     given: "$.paths..patch.requestBody.content[application/vnd.api+json].schema.properties.data[?(@property==='type' && @ === 'array')]"
@@ -2057,8 +2057,8 @@ rules:
                 type: object
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-updating-resource-relationships).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-creating"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-resource-relationships).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating"
     message: "If relationships exist in PAST request, 'data' is REQUIRED"
     severity: error
     given: "#PATCHRelationships"
@@ -2122,8 +2122,8 @@ rules:
                 $ref: '#/components/responses/404Error'  
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-updating-responses).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-updating-responses"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-responses).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-updating-responses"
     message: "POST requests MUST support at least one of the following 2xx codes: 200, 202 or 204"
     severity: error
     given: "$.paths[*][patch].responses"
@@ -2164,8 +2164,8 @@ rules:
                 $ref: '#/components/responses/404Error'
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-updating-responses).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-updating-responses"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-responses).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-updating-responses"
     message: "PATCH requests MUST support response code 404"
     severity: error
     given: "$.paths[*][patch].responses"
@@ -2199,8 +2199,8 @@ rules:
                 $ref: '#/components/responses/409Error'
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-updating-responses).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-updating-responses"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-responses).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-updating-responses"
     message: "PATCH requests MUST support response codes: 409"
     severity: error
     given: "$.paths[*][patch].responses"
@@ -2249,8 +2249,8 @@ rules:
       maxItems:1
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-updating-responses).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-updating-responses"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-responses).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-updating-responses"
     message: "PATCH 409 response SHOULD return 'source' property to identify conflict"
     severity: info
     given: "$.paths[*][patch].responses"
@@ -2259,13 +2259,13 @@ rules:
       function: falsy
 
   # ---------------------------------------------------------------------------
-  # Section 7.3 Updating Relationships
+  # Section 9.3 Updating Relationships
   # ---------------------------------------------------------------------------
 
   # TODO:// Revisit if/when updating relationships becomes needed
 
   # ---------------------------------------------------------------------------
-  # Section 7.4 Deleting Resources
+  # Section 9.4 Deleting Resources
   # ---------------------------------------------------------------------------
 
   delete-2xx-response-codes:
@@ -2312,8 +2312,8 @@ rules:
                 $ref: '#/components/responses/404Error'  
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-deleting-responses).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-deleting-responses"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-deleting-responses).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-deleting-responses"
     message: "DELETE requests MUST support at least one of the following 2xx codes: 200, 202 or 204"
     severity: error
     given: "$.paths[*][delete].responses"
@@ -2354,8 +2354,8 @@ rules:
                 $ref: '#/components/responses/404Error'
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#crud-deleting-responses).
-    documentationUrl: "https://jsonapi.org/format/1.0/#crud-deleting-responses"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-deleting-responses).
+    documentationUrl: "https://jsonapi.org/format/1.1/#crud-deleting-responses"
     message: "DELETE requests MUST support response code 404"
     severity: error
     given: "$.paths[*][delete].responses"
@@ -2364,8 +2364,8 @@ rules:
       function: truthy
 
   # ---------------------------------------------------------------------------
-  # Section 9 Errors
-  # Section 9.2 Errors - Error Object
+  # Section 11 Errors
+  # Section 11.2 Error Objects
   # ---------------------------------------------------------------------------
 
   error-object-schema:
@@ -2423,8 +2423,8 @@ rules:
           type: object
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#error-objects).
-    documentationUrl: "https://jsonapi.org/format/1.0/#error-objects"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#error-objects).
+    documentationUrl: "https://jsonapi.org/format/1.1/#error-objects"
     message: "Error objects (item object) MUST follow schema"
     severity: error
     given: "#ErrorObjects"
@@ -2505,8 +2505,8 @@ rules:
             $ref: '#/components/schemas/Link'
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#error-objects).
-    documentationUrl: "https://jsonapi.org/format/1.0/#error-objects"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#error-objects).
+    documentationUrl: "https://jsonapi.org/format/1.1/#error-objects"
     message: "Error object links property MUST contain 'about'"
     severity: error
     given: "#ErrorObjects.links.properties"
@@ -2543,8 +2543,8 @@ rules:
           type: string
       ```
 
-      Related specification information can be found [here](https://jsonapi.org/format/1.0/#error-objects).
-    documentationUrl: "https://jsonapi.org/format/1.0/#error-objects"
+      Related specification information can be found [here](https://jsonapi.org/format/1.1/#error-objects).
+    documentationUrl: "https://jsonapi.org/format/1.1/#error-objects"
     message: "Error object source MUST follow schema"
     severity: error
     given: "#ErrorObjects.source"
