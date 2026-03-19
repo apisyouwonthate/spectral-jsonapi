@@ -249,7 +249,7 @@ const relationshipDataSchemaRuleSchema = {
   ],
 };
 
-const resourceObjectIdRuleSchema = {
+const resourceObjectIdLeafSchema = {
   anyOf: [
     {
       type: "object",
@@ -281,43 +281,64 @@ const resourceObjectIdRuleSchema = {
         },
       },
     },
+  ],
+};
+
+const resourceObjectIdRuleSchema = {
+  anyOf: [
+    resourceObjectIdLeafSchema,
     {
       type: "object",
       required: ["items"],
       properties: {
         items: {
           anyOf: [
+            resourceObjectIdLeafSchema,
             {
               type: "object",
-              required: ["properties"],
+              required: ["anyOf"],
               properties: {
-                properties: {
-                  type: "object",
-                  required: ["id"],
+                anyOf: {
+                  type: "array",
+                  minItems: 1,
+                  items: resourceObjectIdLeafSchema,
                 },
               },
             },
             {
               type: "object",
-              required: ["allOf"],
+              required: ["oneOf"],
               properties: {
-                allOf: {
+                oneOf: {
                   type: "array",
                   minItems: 1,
-                  contains: {
-                    type: "object",
-                    required: ["properties"],
-                    properties: {
-                      properties: {
-                        type: "object",
-                        required: ["id"],
-                      },
-                    },
-                  },
+                  items: resourceObjectIdLeafSchema,
                 },
               },
             },
           ],
+        },
+      },
+    },
+    {
+      type: "object",
+      required: ["anyOf"],
+      properties: {
+        anyOf: {
+          type: "array",
+          minItems: 1,
+          items: resourceObjectIdLeafSchema,
+        },
+      },
+    },
+    {
+      type: "object",
+      required: ["oneOf"],
+      properties: {
+        oneOf: {
+          type: "array",
+          minItems: 1,
+          items: resourceObjectIdLeafSchema,
         },
       },
     },

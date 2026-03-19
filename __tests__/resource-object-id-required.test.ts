@@ -205,4 +205,100 @@ testRule("resource-object-id-required", [
       },
     ],
   },
+  {
+    name: "valid: included anyOf refs with id-bearing resource objects",
+    document: {
+      openapi: "3.1.0",
+      info: {
+        title: "Test",
+        version: "1.0.0",
+      },
+      paths: {
+        "/articles/{id}": {
+          get: {
+            responses: {
+              "200": {
+                description: "ok",
+                content: {
+                  "application/vnd.api+json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        data: {
+                          type: "object",
+                          properties: {
+                            id: {
+                              type: "string",
+                            },
+                          },
+                        },
+                        included: {
+                          type: "array",
+                          items: {
+                            anyOf: [
+                              {
+                                $ref: "#/components/schemas/IncludedA",
+                              },
+                              {
+                                $ref: "#/components/schemas/IncludedB",
+                              },
+                            ],
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      components: {
+        schemas: {
+          BaseModel: {
+            type: "object",
+            properties: {
+              id: {
+                type: "string",
+              },
+            },
+          },
+          IncludedA: {
+            allOf: [
+              {
+                $ref: "#/components/schemas/BaseModel",
+              },
+              {
+                type: "object",
+                properties: {
+                  type: {
+                    type: "string",
+                    enum: ["included_a"],
+                  },
+                },
+              },
+            ],
+          },
+          IncludedB: {
+            allOf: [
+              {
+                $ref: "#/components/schemas/BaseModel",
+              },
+              {
+                type: "object",
+                properties: {
+                  type: {
+                    type: "string",
+                    enum: ["included_b"],
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+    },
+    errors: [],
+  },
 ]);
