@@ -11,7 +11,11 @@ import { DiagnosticSeverity } from "@stoplight/types";
 
 const relationshipPropertiesSchema = {
   type: "object",
-  anyOf: [{ required: ["links"] }, { required: ["data"] }, { required: ["meta"] }],
+  anyOf: [
+    { required: ["links"] },
+    { required: ["data"] },
+    { required: ["meta"] },
+  ],
   properties: {
     links: {
       type: "object",
@@ -142,6 +146,178 @@ const relationshipSchemaRuleSchema = {
               properties: relationshipPropertiesSchema,
             },
           },
+        },
+      },
+    },
+  ],
+};
+
+const relationshipDataEntrySchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "object",
+      properties: {
+        type: {
+          anyOf: [
+            {
+              type: "string",
+              enum: ["string"],
+            },
+            {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "string",
+                enum: ["string"],
+              },
+            },
+          ],
+        },
+      },
+    },
+    type: {
+      type: "object",
+      properties: {
+        type: {
+          anyOf: [
+            {
+              type: "string",
+              enum: ["string"],
+            },
+            {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "string",
+                enum: ["string"],
+              },
+            },
+          ],
+        },
+      },
+    },
+    meta: {
+      type: "object",
+      properties: {
+        type: {
+          anyOf: [
+            {
+              type: "string",
+              enum: ["object"],
+            },
+            {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "string",
+                enum: ["object"],
+              },
+            },
+          ],
+        },
+      },
+    },
+  },
+};
+
+const relationshipDataSchemaRuleSchema = {
+  anyOf: [
+    relationshipDataEntrySchema,
+    {
+      type: "object",
+      properties: {
+        type: {
+          anyOf: [
+            {
+              type: "string",
+              enum: ["array"],
+            },
+            {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "string",
+                enum: ["array"],
+              },
+            },
+          ],
+        },
+        items: relationshipDataEntrySchema,
+      },
+    },
+  ],
+};
+
+const resourceObjectIdRuleSchema = {
+  anyOf: [
+    {
+      type: "object",
+      required: ["properties"],
+      properties: {
+        properties: {
+          type: "object",
+          required: ["id"],
+        },
+      },
+    },
+    {
+      type: "object",
+      required: ["allOf"],
+      properties: {
+        allOf: {
+          type: "array",
+          minItems: 1,
+          contains: {
+            type: "object",
+            required: ["properties"],
+            properties: {
+              properties: {
+                type: "object",
+                required: ["id"],
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      type: "object",
+      required: ["items"],
+      properties: {
+        items: {
+          anyOf: [
+            {
+              type: "object",
+              required: ["properties"],
+              properties: {
+                properties: {
+                  type: "object",
+                  required: ["id"],
+                },
+              },
+            },
+            {
+              type: "object",
+              required: ["allOf"],
+              properties: {
+                allOf: {
+                  type: "array",
+                  minItems: 1,
+                  contains: {
+                    type: "object",
+                    required: ["properties"],
+                    properties: {
+                      properties: {
+                        type: "object",
+                        required: ["id"],
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          ],
         },
       },
     },
@@ -576,10 +752,18 @@ Related specification information can be found [here](https://jsonapi.org/format
         "https://jsonapi.org/format/1.1/#document-resource-objects",
       message: "Resource objects should include an id property.",
       severity: DiagnosticSeverity.Warning,
-      given: "#ResourceObjects",
+      resolved: true,
+      given: [
+        "$.paths..responses..content[application/vnd.api+json].schema.properties.data",
+        "$.paths..responses..content[application/vnd.api+json].schema.properties.data.items",
+        "$.paths..content[application/vnd.api+json].schema.properties.included.items",
+      ],
       then: {
-        field: "id",
-        function: truthy,
+        function: schema,
+        functionOptions: {
+          dialect: "draft2020-12",
+          schema: resourceObjectIdRuleSchema,
+        },
       },
     },
     "resource-object-property-types": {
@@ -1071,39 +1255,7 @@ Related specification information can be found [here](https://jsonapi.org/format
         function: schema,
         functionOptions: {
           dialect: "draft2020-12",
-          schema: {
-            type: "object",
-            required: ["id", "type"],
-            properties: {
-              id: {
-                type: "object",
-                properties: {
-                  type: {
-                    type: "string",
-                    enum: ["string"],
-                  },
-                },
-              },
-              type: {
-                type: "object",
-                properties: {
-                  type: {
-                    type: "string",
-                    enum: ["string"],
-                  },
-                },
-              },
-              meta: {
-                type: "object",
-                properties: {
-                  type: {
-                    type: "string",
-                    enum: ["object"],
-                  },
-                },
-              },
-            },
-          },
+          schema: relationshipDataSchemaRuleSchema,
         },
       },
     },

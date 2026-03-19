@@ -1,6 +1,43 @@
 import { DiagnosticSeverity } from "@stoplight/types";
 import testRule from "./__helpers__/helper";
 
+const componentResponseDocument = (
+  schemaName: string,
+  schemas: Record<string, unknown>,
+) => ({
+  openapi: "3.1.0",
+  info: {
+    title: "Test",
+    version: "1.0.0",
+  },
+  paths: {
+    "/articles/{id}": {
+      get: {
+        responses: {
+          "200": {
+            description: "ok",
+            content: {
+              "application/vnd.api+json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    data: {
+                      $ref: `#/components/schemas/${schemaName}`,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  components: {
+    schemas,
+  },
+});
+
 const invalidDocument = {
   openapi: "3.1.0",
   info: {
@@ -62,6 +99,22 @@ testRule("resource-object-id-required", [
           "schema",
           "properties",
           "data",
+        ],
+        severity: DiagnosticSeverity.Warning,
+      },
+      {
+        message: "Resource objects should include an id property.",
+        path: [
+          "paths",
+          "/articles/{id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/vnd.api+json",
+          "schema",
+          "properties",
+          "data",
           "properties",
         ],
         severity: DiagnosticSeverity.Warning,
@@ -72,5 +125,84 @@ testRule("resource-object-id-required", [
     name: "valid resource-object-id-required case",
     document: validDocument,
     errors: [],
+  },
+  {
+    name: "valid: id provided by allOf base schema",
+    document: componentResponseDocument("Applicant", {
+      BaseModel: {
+        type: "object",
+        properties: {
+          id: {
+            type: "string",
+          },
+        },
+      },
+      Applicant: {
+        allOf: [
+          {
+            $ref: "#/components/schemas/BaseModel",
+          },
+          {
+            type: "object",
+            properties: {
+              type: {
+                type: "string",
+                enum: ["applicant"],
+              },
+            },
+          },
+        ],
+      },
+    }),
+    errors: [],
+  },
+  {
+    name: "invalid: response resource object missing id",
+    document: componentResponseDocument("MissingId", {
+      MissingId: {
+        type: "object",
+        properties: {
+          type: {
+            type: "string",
+            enum: ["missing_id"],
+          },
+        },
+      },
+    }),
+    errors: [
+      {
+        message: "Resource objects should include an id property.",
+        path: [
+          "paths",
+          "/articles/{id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/vnd.api+json",
+          "schema",
+          "properties",
+          "data",
+          "properties",
+        ],
+        severity: DiagnosticSeverity.Warning,
+      },
+      {
+        message: "Resource objects should include an id property.",
+        path: [
+          "paths",
+          "/articles/{id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/vnd.api+json",
+          "schema",
+          "properties",
+          "data",
+        ],
+        severity: DiagnosticSeverity.Warning,
+      },
+    ],
   },
 ]);
