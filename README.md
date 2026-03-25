@@ -63,6 +63,32 @@ extends:
   - spectral:oas
 ```
 
+## Rule Opt-Outs
+
+### resource-object-id-required
+
+Use this opt-out only when a response schema is intentionally not a standard JSON:API resource object (for example, ephemeral computed resources without stable IDs).
+
+Set `x-jsonapi-virtual-resource: true` on the resource schema to skip the `resource-object-id-required` warning.
+
+```yaml
+components:
+	schemas:
+		AvailableSlotResource:
+			type: object
+			x-jsonapi-virtual-resource: true
+			required:
+				- type
+				- attributes
+			properties:
+				type:
+					type: string
+					enum:
+						- availableSlot
+				attributes:
+					$ref: "#/components/schemas/AvailableSlotAttributes"
+```
+
 ## 👥 Contributing
 
 For testing approach and contributor workflow, see [CONTRIBUTING.md](CONTRIBUTING.md).

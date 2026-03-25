@@ -39,6 +39,46 @@ const componentResponseDocument = (
   },
 });
 
+const componentCollectionResponseDocument = (
+  schemaName: string,
+  schemas: Record<string, unknown>,
+) => ({
+  openapi: "3.1.0",
+  info: {
+    title: "Test",
+    version: "1.0.0",
+  },
+  paths: {
+    "/articles": {
+      get: {
+        responses: {
+          "200": {
+            description: "ok",
+            content: {
+              "application/vnd.api+json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    data: {
+                      type: "array",
+                      items: {
+                        $ref: `#/components/schemas/${schemaName}`,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  components: {
+    schemas,
+  },
+});
+
 describe("Rule resource-object-id-required", () => {
   let spectral = createWithRules(["resource-object-id-required"]);
 
@@ -93,23 +133,6 @@ describe("Rule resource-object-id-required", () => {
           "schema",
           "properties",
           "data",
-        ],
-        severity: DiagnosticSeverity.Warning,
-      },
-      {
-        message: "Resource objects should include an id property.",
-        path: [
-          "paths",
-          "/articles/{id}",
-          "get",
-          "responses",
-          "200",
-          "content",
-          "application/vnd.api+json",
-          "schema",
-          "properties",
-          "data",
-          "properties",
         ],
         severity: DiagnosticSeverity.Warning,
       },
@@ -223,15 +246,47 @@ describe("Rule resource-object-id-required", () => {
             "schema",
             "properties",
             "data",
-            "properties",
           ],
           severity: DiagnosticSeverity.Warning,
         },
+      ],
+    );
+  });
+
+  it("invalid: collection item component missing id like Street virtual resources", async () => {
+    await expectRuleErrors(
+      spectral,
+      "resource-object-id-required",
+      componentCollectionResponseDocument("AvailableSlotResource", {
+        AvailableSlotAttributes: {
+          type: "object",
+          properties: {
+            start_time: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+        AvailableSlotResource: {
+          type: "object",
+          required: ["type", "attributes"],
+          properties: {
+            type: {
+              type: "string",
+              enum: ["availableSlot"],
+            },
+            attributes: {
+              $ref: "#/components/schemas/AvailableSlotAttributes",
+            },
+          },
+        },
+      }),
+      [
         {
           message: "Resource objects should include an id property.",
           path: [
             "paths",
-            "/articles/{id}",
+            "/articles",
             "get",
             "responses",
             "200",
@@ -240,6 +295,127 @@ describe("Rule resource-object-id-required", () => {
             "schema",
             "properties",
             "data",
+            "items",
+          ],
+          severity: DiagnosticSeverity.Warning,
+        },
+      ],
+    );
+  });
+
+  it("valid: collection item component with id passes", async () => {
+    await expectRuleErrors(
+      spectral,
+      "resource-object-id-required",
+      componentCollectionResponseDocument("CalendarEventResource", {
+        CalendarEventAttributes: {
+          type: "object",
+          properties: {
+            event_start: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+        CalendarEventResource: {
+          type: "object",
+          required: ["id", "type", "attributes"],
+          properties: {
+            id: {
+              type: "string",
+            },
+            type: {
+              type: "string",
+              enum: ["calendarEvent"],
+            },
+            attributes: {
+              $ref: "#/components/schemas/CalendarEventAttributes",
+            },
+          },
+        },
+      }),
+      [],
+    );
+  });
+
+  it("valid: opt-out with x-jsonapi-virtual-resource for collection item component", async () => {
+    await expectRuleErrors(
+      spectral,
+      "resource-object-id-required",
+      componentCollectionResponseDocument("AvailableSlotResource", {
+        AvailableSlotAttributes: {
+          type: "object",
+          properties: {
+            start_time: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+        AvailableSlotResource: {
+          type: "object",
+          "x-jsonapi-virtual-resource": true,
+          required: ["type", "attributes"],
+          properties: {
+            type: {
+              type: "string",
+              enum: ["availableSlot"],
+            },
+            attributes: {
+              $ref: "#/components/schemas/AvailableSlotAttributes",
+            },
+          },
+        },
+      }),
+      [],
+    );
+  });
+
+  it("invalid: x-jsonapi-virtual-resource false does not opt out", async () => {
+    await expectRuleErrors(
+      spectral,
+      "resource-object-id-required",
+      componentCollectionResponseDocument("AvailableSlotResource", {
+        AvailableSlotAttributes: {
+          type: "object",
+          properties: {
+            start_time: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+        AvailableSlotResource: {
+          type: "object",
+          "x-jsonapi-virtual-resource": false,
+          required: ["type", "attributes"],
+          properties: {
+            type: {
+              type: "string",
+              enum: ["availableSlot"],
+            },
+            attributes: {
+              $ref: "#/components/schemas/AvailableSlotAttributes",
+            },
+          },
+        },
+      }),
+      [
+        {
+          message: "Resource objects should include an id property.",
+          path: [
+            "paths",
+            "/articles",
+            "get",
+            "responses",
+            "200",
+            "content",
+            "application/vnd.api+json",
+            "schema",
+            "properties",
+            "data",
+            "items",
+            "x-jsonapi-virtual-resource",
           ],
           severity: DiagnosticSeverity.Warning,
         },

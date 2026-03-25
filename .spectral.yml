@@ -367,6 +367,8 @@ rules:
     description: |-
       Verify `id` property exists in Resource Object (except POST requestBody)
 
+      Set `x-jsonapi-virtual-resource: true` on a resource schema to opt out when the resource is intentionally non-standard (for example, ephemeral computed resources that do not have stable IDs).
+
       **Valid Example:**
       ```yaml
       # path..responses...
@@ -395,15 +397,26 @@ rules:
     severity: warn
     resolved: true
     given:
-      - $.paths..responses..content[application/vnd.api+json].schema.properties.data
+      - $.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === 'type' && @ === 'object')]^
+      - $.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === '$ref')]^
+      - $.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === 'allOf')]^
+      - $.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === 'anyOf')]^
+      - $.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === 'oneOf')]^
       - $.paths..responses..content[application/vnd.api+json].schema.properties.data.items
       - $.paths..content[application/vnd.api+json].schema.properties.included.items
     then:
       function: schema
       functionOptions:
         dialect: draft2020-12
+        allErrors: false
         schema:
           anyOf:
+            - type: object
+              required:
+                - x-jsonapi-virtual-resource
+              properties:
+                x-jsonapi-virtual-resource:
+                  const: true
             - anyOf:
                 - type: object
                   required:
@@ -435,6 +448,12 @@ rules:
               properties:
                 items:
                   anyOf:
+                    - type: object
+                      required:
+                        - x-jsonapi-virtual-resource
+                      properties:
+                        x-jsonapi-virtual-resource:
+                          const: true
                     - anyOf:
                         - type: object
                           required:
@@ -471,28 +490,35 @@ rules:
                             anyOf:
                               - type: object
                                 required:
-                                  - properties
+                                  - x-jsonapi-virtual-resource
                                 properties:
-                                  properties:
-                                    type: object
+                                  x-jsonapi-virtual-resource:
+                                    const: true
+                              - anyOf:
+                                  - type: object
                                     required:
-                                      - id
-                              - type: object
-                                required:
-                                  - allOf
-                                properties:
-                                  allOf:
-                                    type: array
-                                    minItems: 1
-                                    contains:
-                                      type: object
-                                      required:
-                                        - properties
+                                      - properties
+                                    properties:
                                       properties:
-                                        properties:
+                                        type: object
+                                        required:
+                                          - id
+                                  - type: object
+                                    required:
+                                      - allOf
+                                    properties:
+                                      allOf:
+                                        type: array
+                                        minItems: 1
+                                        contains:
                                           type: object
                                           required:
-                                            - id
+                                            - properties
+                                          properties:
+                                            properties:
+                                              type: object
+                                              required:
+                                                - id
                     - type: object
                       required:
                         - oneOf
@@ -504,28 +530,35 @@ rules:
                             anyOf:
                               - type: object
                                 required:
-                                  - properties
+                                  - x-jsonapi-virtual-resource
                                 properties:
-                                  properties:
-                                    type: object
+                                  x-jsonapi-virtual-resource:
+                                    const: true
+                              - anyOf:
+                                  - type: object
                                     required:
-                                      - id
-                              - type: object
-                                required:
-                                  - allOf
-                                properties:
-                                  allOf:
-                                    type: array
-                                    minItems: 1
-                                    contains:
-                                      type: object
-                                      required:
-                                        - properties
+                                      - properties
+                                    properties:
                                       properties:
-                                        properties:
+                                        type: object
+                                        required:
+                                          - id
+                                  - type: object
+                                    required:
+                                      - allOf
+                                    properties:
+                                      allOf:
+                                        type: array
+                                        minItems: 1
+                                        contains:
                                           type: object
                                           required:
-                                            - id
+                                            - properties
+                                          properties:
+                                            properties:
+                                              type: object
+                                              required:
+                                                - id
             - type: object
               required:
                 - anyOf
@@ -537,28 +570,35 @@ rules:
                     anyOf:
                       - type: object
                         required:
-                          - properties
+                          - x-jsonapi-virtual-resource
                         properties:
-                          properties:
-                            type: object
+                          x-jsonapi-virtual-resource:
+                            const: true
+                      - anyOf:
+                          - type: object
                             required:
-                              - id
-                      - type: object
-                        required:
-                          - allOf
-                        properties:
-                          allOf:
-                            type: array
-                            minItems: 1
-                            contains:
-                              type: object
-                              required:
-                                - properties
+                              - properties
+                            properties:
                               properties:
-                                properties:
+                                type: object
+                                required:
+                                  - id
+                          - type: object
+                            required:
+                              - allOf
+                            properties:
+                              allOf:
+                                type: array
+                                minItems: 1
+                                contains:
                                   type: object
                                   required:
-                                    - id
+                                    - properties
+                                  properties:
+                                    properties:
+                                      type: object
+                                      required:
+                                        - id
             - type: object
               required:
                 - oneOf
@@ -570,28 +610,35 @@ rules:
                     anyOf:
                       - type: object
                         required:
-                          - properties
+                          - x-jsonapi-virtual-resource
                         properties:
-                          properties:
-                            type: object
+                          x-jsonapi-virtual-resource:
+                            const: true
+                      - anyOf:
+                          - type: object
                             required:
-                              - id
-                      - type: object
-                        required:
-                          - allOf
-                        properties:
-                          allOf:
-                            type: array
-                            minItems: 1
-                            contains:
-                              type: object
-                              required:
-                                - properties
+                              - properties
+                            properties:
                               properties:
-                                properties:
+                                type: object
+                                required:
+                                  - id
+                          - type: object
+                            required:
+                              - allOf
+                            properties:
+                              allOf:
+                                type: array
+                                minItems: 1
+                                contains:
                                   type: object
                                   required:
-                                    - id
+                                    - properties
+                                  properties:
+                                    properties:
+                                      type: object
+                                      required:
+                                        - id
   resource-object-property-types:
     description: |-
       `id` and `type` **MUST** be of type `string`

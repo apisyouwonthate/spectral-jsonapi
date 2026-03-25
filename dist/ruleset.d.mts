@@ -177,9 +177,10 @@ declare const _default: {
             resolved: boolean;
             given: string[];
             then: {
-                function: _stoplight_spectral_core.RulesetFunctionWithValidator<unknown, _stoplight_spectral_functions.SchemaOptions>;
+                function: (input: unknown, options: _stoplight_spectral_functions.SchemaOptions, context: _stoplight_spectral_core.RulesetFunctionContext) => void | (_stoplight_spectral_core.IFunctionResult | undefined)[] | Promise<void | (_stoplight_spectral_core.IFunctionResult | undefined)[]>;
                 functionOptions: {
                     dialect: string;
+                    allErrors: boolean;
                     schema: {
                         anyOf: ({
                             anyOf: ({
@@ -213,6 +214,14 @@ declare const _default: {
                                     properties?: undefined;
                                 };
                             })[];
+                        } | {
+                            type: string;
+                            required: string[];
+                            properties: {
+                                "x-jsonapi-virtual-resource": {
+                                    const: boolean;
+                                };
+                            };
                         } | {
                             type: string;
                             required: string[];
@@ -254,39 +263,57 @@ declare const _default: {
                                         type: string;
                                         required: string[];
                                         properties: {
+                                            "x-jsonapi-virtual-resource": {
+                                                const: boolean;
+                                            };
+                                        };
+                                    } | {
+                                        type: string;
+                                        required: string[];
+                                        properties: {
                                             anyOf: {
                                                 type: string;
                                                 minItems: number;
                                                 items: {
                                                     anyOf: ({
-                                                        type: string;
-                                                        required: string[];
-                                                        properties: {
+                                                        anyOf: ({
+                                                            type: string;
+                                                            required: string[];
                                                             properties: {
-                                                                type: string;
-                                                                required: string[];
+                                                                properties: {
+                                                                    type: string;
+                                                                    required: string[];
+                                                                };
+                                                                allOf?: undefined;
                                                             };
-                                                            allOf?: undefined;
-                                                        };
+                                                        } | {
+                                                            type: string;
+                                                            required: string[];
+                                                            properties: {
+                                                                allOf: {
+                                                                    type: string;
+                                                                    minItems: number;
+                                                                    contains: {
+                                                                        type: string;
+                                                                        required: string[];
+                                                                        properties: {
+                                                                            properties: {
+                                                                                type: string;
+                                                                                required: string[];
+                                                                            };
+                                                                        };
+                                                                    };
+                                                                };
+                                                                properties?: undefined;
+                                                            };
+                                                        })[];
                                                     } | {
                                                         type: string;
                                                         required: string[];
                                                         properties: {
-                                                            allOf: {
-                                                                type: string;
-                                                                minItems: number;
-                                                                contains: {
-                                                                    type: string;
-                                                                    required: string[];
-                                                                    properties: {
-                                                                        properties: {
-                                                                            type: string;
-                                                                            required: string[];
-                                                                        };
-                                                                    };
-                                                                };
+                                                            "x-jsonapi-virtual-resource": {
+                                                                const: boolean;
                                                             };
-                                                            properties?: undefined;
                                                         };
                                                     })[];
                                                 };
@@ -302,34 +329,44 @@ declare const _default: {
                                                 minItems: number;
                                                 items: {
                                                     anyOf: ({
-                                                        type: string;
-                                                        required: string[];
-                                                        properties: {
+                                                        anyOf: ({
+                                                            type: string;
+                                                            required: string[];
                                                             properties: {
-                                                                type: string;
-                                                                required: string[];
+                                                                properties: {
+                                                                    type: string;
+                                                                    required: string[];
+                                                                };
+                                                                allOf?: undefined;
                                                             };
-                                                            allOf?: undefined;
-                                                        };
+                                                        } | {
+                                                            type: string;
+                                                            required: string[];
+                                                            properties: {
+                                                                allOf: {
+                                                                    type: string;
+                                                                    minItems: number;
+                                                                    contains: {
+                                                                        type: string;
+                                                                        required: string[];
+                                                                        properties: {
+                                                                            properties: {
+                                                                                type: string;
+                                                                                required: string[];
+                                                                            };
+                                                                        };
+                                                                    };
+                                                                };
+                                                                properties?: undefined;
+                                                            };
+                                                        })[];
                                                     } | {
                                                         type: string;
                                                         required: string[];
                                                         properties: {
-                                                            allOf: {
-                                                                type: string;
-                                                                minItems: number;
-                                                                contains: {
-                                                                    type: string;
-                                                                    required: string[];
-                                                                    properties: {
-                                                                        properties: {
-                                                                            type: string;
-                                                                            required: string[];
-                                                                        };
-                                                                    };
-                                                                };
+                                                            "x-jsonapi-virtual-resource": {
+                                                                const: boolean;
                                                             };
-                                                            properties?: undefined;
                                                         };
                                                     })[];
                                                 };
@@ -350,34 +387,44 @@ declare const _default: {
                                     minItems: number;
                                     items: {
                                         anyOf: ({
-                                            type: string;
-                                            required: string[];
-                                            properties: {
+                                            anyOf: ({
+                                                type: string;
+                                                required: string[];
                                                 properties: {
-                                                    type: string;
-                                                    required: string[];
+                                                    properties: {
+                                                        type: string;
+                                                        required: string[];
+                                                    };
+                                                    allOf?: undefined;
                                                 };
-                                                allOf?: undefined;
-                                            };
+                                            } | {
+                                                type: string;
+                                                required: string[];
+                                                properties: {
+                                                    allOf: {
+                                                        type: string;
+                                                        minItems: number;
+                                                        contains: {
+                                                            type: string;
+                                                            required: string[];
+                                                            properties: {
+                                                                properties: {
+                                                                    type: string;
+                                                                    required: string[];
+                                                                };
+                                                            };
+                                                        };
+                                                    };
+                                                    properties?: undefined;
+                                                };
+                                            })[];
                                         } | {
                                             type: string;
                                             required: string[];
                                             properties: {
-                                                allOf: {
-                                                    type: string;
-                                                    minItems: number;
-                                                    contains: {
-                                                        type: string;
-                                                        required: string[];
-                                                        properties: {
-                                                            properties: {
-                                                                type: string;
-                                                                required: string[];
-                                                            };
-                                                        };
-                                                    };
+                                                "x-jsonapi-virtual-resource": {
+                                                    const: boolean;
                                                 };
-                                                properties?: undefined;
                                             };
                                         })[];
                                     };
@@ -394,34 +441,44 @@ declare const _default: {
                                     minItems: number;
                                     items: {
                                         anyOf: ({
-                                            type: string;
-                                            required: string[];
-                                            properties: {
+                                            anyOf: ({
+                                                type: string;
+                                                required: string[];
                                                 properties: {
-                                                    type: string;
-                                                    required: string[];
+                                                    properties: {
+                                                        type: string;
+                                                        required: string[];
+                                                    };
+                                                    allOf?: undefined;
                                                 };
-                                                allOf?: undefined;
-                                            };
+                                            } | {
+                                                type: string;
+                                                required: string[];
+                                                properties: {
+                                                    allOf: {
+                                                        type: string;
+                                                        minItems: number;
+                                                        contains: {
+                                                            type: string;
+                                                            required: string[];
+                                                            properties: {
+                                                                properties: {
+                                                                    type: string;
+                                                                    required: string[];
+                                                                };
+                                                            };
+                                                        };
+                                                    };
+                                                    properties?: undefined;
+                                                };
+                                            })[];
                                         } | {
                                             type: string;
                                             required: string[];
                                             properties: {
-                                                allOf: {
-                                                    type: string;
-                                                    minItems: number;
-                                                    contains: {
-                                                        type: string;
-                                                        required: string[];
-                                                        properties: {
-                                                            properties: {
-                                                                type: string;
-                                                                required: string[];
-                                                            };
-                                                        };
-                                                    };
+                                                "x-jsonapi-virtual-resource": {
+                                                    const: boolean;
                                                 };
-                                                properties?: undefined;
                                             };
                                         })[];
                                     };

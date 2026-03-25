@@ -358,8 +358,18 @@ var resourceObjectIdLeafSchema = {
     }
   ]
 };
+var resourceObjectIdOptOutSchema = {
+  type: "object",
+  required: ["x-jsonapi-virtual-resource"],
+  properties: {
+    "x-jsonapi-virtual-resource": {
+      const: true
+    }
+  }
+};
 var resourceObjectIdRuleSchema = {
   anyOf: [
+    resourceObjectIdOptOutSchema,
     resourceObjectIdLeafSchema,
     {
       type: "object",
@@ -367,6 +377,7 @@ var resourceObjectIdRuleSchema = {
       properties: {
         items: {
           anyOf: [
+            resourceObjectIdOptOutSchema,
             resourceObjectIdLeafSchema,
             {
               type: "object",
@@ -375,7 +386,12 @@ var resourceObjectIdRuleSchema = {
                 anyOf: {
                   type: "array",
                   minItems: 1,
-                  items: resourceObjectIdLeafSchema
+                  items: {
+                    anyOf: [
+                      resourceObjectIdOptOutSchema,
+                      resourceObjectIdLeafSchema
+                    ]
+                  }
                 }
               }
             },
@@ -386,7 +402,12 @@ var resourceObjectIdRuleSchema = {
                 oneOf: {
                   type: "array",
                   minItems: 1,
-                  items: resourceObjectIdLeafSchema
+                  items: {
+                    anyOf: [
+                      resourceObjectIdOptOutSchema,
+                      resourceObjectIdLeafSchema
+                    ]
+                  }
                 }
               }
             }
@@ -401,7 +422,9 @@ var resourceObjectIdRuleSchema = {
         anyOf: {
           type: "array",
           minItems: 1,
-          items: resourceObjectIdLeafSchema
+          items: {
+            anyOf: [resourceObjectIdOptOutSchema, resourceObjectIdLeafSchema]
+          }
         }
       }
     },
@@ -412,11 +435,22 @@ var resourceObjectIdRuleSchema = {
         oneOf: {
           type: "array",
           minItems: 1,
-          items: resourceObjectIdLeafSchema
+          items: {
+            anyOf: [resourceObjectIdOptOutSchema, resourceObjectIdLeafSchema]
+          }
         }
       }
     }
   ]
+};
+var schemaFirstError = (...args) => {
+  const result = (0, import_spectral_functions.schema)(...args);
+  if (result instanceof Promise) {
+    return result.then(
+      (errors) => Array.isArray(errors) && errors.length > 0 ? [errors[0]] : errors
+    );
+  }
+  return Array.isArray(result) && result.length > 0 ? [result[0]] : result;
 };
 var ruleset_default = {
   description: `# [{json:api}](https://jsonapi.org/) - [v1.1](https://jsonapi.org/format/1.1/)
@@ -812,6 +846,8 @@ Related specification information can be found [here](https://jsonapi.org/format
     "resource-object-id-required": {
       description: `Verify \`id\` property exists in Resource Object (except POST requestBody)
 
+Set \`x-jsonapi-virtual-resource: true\` on a resource schema to opt out when the resource is intentionally non-standard (for example, ephemeral computed resources that do not have stable IDs).
+
 **Valid Example:**
 \`\`\`yaml
 # path..responses...
@@ -840,14 +876,19 @@ Related specification information can be found [here](https://jsonapi.org/format
       severity: DiagnosticSeverity.Warning,
       resolved: true,
       given: [
-        "$.paths..responses..content[application/vnd.api+json].schema.properties.data",
+        "$.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === 'type' && @ === 'object')]^",
+        "$.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === '$ref')]^",
+        "$.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === 'allOf')]^",
+        "$.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === 'anyOf')]^",
+        "$.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === 'oneOf')]^",
         "$.paths..responses..content[application/vnd.api+json].schema.properties.data.items",
         "$.paths..content[application/vnd.api+json].schema.properties.included.items"
       ],
       then: {
-        function: import_spectral_functions.schema,
+        function: schemaFirstError,
         functionOptions: {
           dialect: "draft2020-12",
+          allErrors: false,
           schema: resourceObjectIdRuleSchema
         }
       }

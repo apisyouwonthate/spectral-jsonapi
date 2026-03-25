@@ -59,7 +59,13 @@ function normalize(value, atPath = "$") {
   }
 
   if (typeof value === "function") {
+    // Explicitly map schemaFirstError to schema for YAML output (schemaFirstError is TypeScript-only)
+    if (value.name === "schemaFirstError") {
+      return "schema";
+    }
+
     const functionName = functionNameByRef.get(value);
+
     if (functionName) {
       return functionName;
     }
