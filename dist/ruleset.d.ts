@@ -187,10 +187,21 @@ declare const _default: {
                                 type: string;
                                 required: string[];
                                 properties: {
+                                    $ref: {
+                                        type: string;
+                                    };
+                                    properties?: undefined;
+                                    allOf?: undefined;
+                                };
+                            } | {
+                                type: string;
+                                required: string[];
+                                properties: {
                                     properties: {
                                         type: string;
                                         required: string[];
                                     };
+                                    $ref?: undefined;
                                     allOf?: undefined;
                                 };
                             } | {
@@ -201,16 +212,29 @@ declare const _default: {
                                         type: string;
                                         minItems: number;
                                         contains: {
-                                            type: string;
-                                            required: string[];
-                                            properties: {
+                                            anyOf: ({
+                                                type: string;
+                                                required: string[];
                                                 properties: {
-                                                    type: string;
-                                                    required: string[];
+                                                    properties: {
+                                                        type: string;
+                                                        required: string[];
+                                                    };
+                                                    $ref?: undefined;
                                                 };
-                                            };
+                                            } | {
+                                                type: string;
+                                                required: string[];
+                                                properties: {
+                                                    $ref: {
+                                                        type: string;
+                                                    };
+                                                    properties?: undefined;
+                                                };
+                                            })[];
                                         };
                                     };
+                                    $ref?: undefined;
                                     properties?: undefined;
                                 };
                             })[];
@@ -232,10 +256,21 @@ declare const _default: {
                                             type: string;
                                             required: string[];
                                             properties: {
+                                                $ref: {
+                                                    type: string;
+                                                };
+                                                properties?: undefined;
+                                                allOf?: undefined;
+                                            };
+                                        } | {
+                                            type: string;
+                                            required: string[];
+                                            properties: {
                                                 properties: {
                                                     type: string;
                                                     required: string[];
                                                 };
+                                                $ref?: undefined;
                                                 allOf?: undefined;
                                             };
                                         } | {
@@ -246,16 +281,29 @@ declare const _default: {
                                                     type: string;
                                                     minItems: number;
                                                     contains: {
-                                                        type: string;
-                                                        required: string[];
-                                                        properties: {
+                                                        anyOf: ({
+                                                            type: string;
+                                                            required: string[];
                                                             properties: {
-                                                                type: string;
-                                                                required: string[];
+                                                                properties: {
+                                                                    type: string;
+                                                                    required: string[];
+                                                                };
+                                                                $ref?: undefined;
                                                             };
-                                                        };
+                                                        } | {
+                                                            type: string;
+                                                            required: string[];
+                                                            properties: {
+                                                                $ref: {
+                                                                    type: string;
+                                                                };
+                                                                properties?: undefined;
+                                                            };
+                                                        })[];
                                                     };
                                                 };
+                                                $ref?: undefined;
                                                 properties?: undefined;
                                             };
                                         })[];
@@ -280,10 +328,21 @@ declare const _default: {
                                                             type: string;
                                                             required: string[];
                                                             properties: {
+                                                                $ref: {
+                                                                    type: string;
+                                                                };
+                                                                properties?: undefined;
+                                                                allOf?: undefined;
+                                                            };
+                                                        } | {
+                                                            type: string;
+                                                            required: string[];
+                                                            properties: {
                                                                 properties: {
                                                                     type: string;
                                                                     required: string[];
                                                                 };
+                                                                $ref?: undefined;
                                                                 allOf?: undefined;
                                                             };
                                                         } | {
@@ -294,16 +353,29 @@ declare const _default: {
                                                                     type: string;
                                                                     minItems: number;
                                                                     contains: {
-                                                                        type: string;
-                                                                        required: string[];
-                                                                        properties: {
+                                                                        anyOf: ({
+                                                                            type: string;
+                                                                            required: string[];
                                                                             properties: {
-                                                                                type: string;
-                                                                                required: string[];
+                                                                                properties: {
+                                                                                    type: string;
+                                                                                    required: string[];
+                                                                                };
+                                                                                $ref?: undefined;
                                                                             };
-                                                                        };
+                                                                        } | {
+                                                                            type: string;
+                                                                            required: string[];
+                                                                            properties: {
+                                                                                $ref: {
+                                                                                    type: string;
+                                                                                };
+                                                                                properties?: undefined;
+                                                                            };
+                                                                        })[];
                                                                     };
                                                                 };
+                                                                $ref?: undefined;
                                                                 properties?: undefined;
                                                             };
                                                         })[];
@@ -333,10 +405,21 @@ declare const _default: {
                                                             type: string;
                                                             required: string[];
                                                             properties: {
+                                                                $ref: {
+                                                                    type: string;
+                                                                };
+                                                                properties?: undefined;
+                                                                allOf?: undefined;
+                                                            };
+                                                        } | {
+                                                            type: string;
+                                                            required: string[];
+                                                            properties: {
                                                                 properties: {
                                                                     type: string;
                                                                     required: string[];
                                                                 };
+                                                                $ref?: undefined;
                                                                 allOf?: undefined;
                                                             };
                                                         } | {
@@ -347,16 +430,29 @@ declare const _default: {
                                                                     type: string;
                                                                     minItems: number;
                                                                     contains: {
-                                                                        type: string;
-                                                                        required: string[];
-                                                                        properties: {
+                                                                        anyOf: ({
+                                                                            type: string;
+                                                                            required: string[];
                                                                             properties: {
-                                                                                type: string;
-                                                                                required: string[];
+                                                                                properties: {
+                                                                                    type: string;
+                                                                                    required: string[];
+                                                                                };
+                                                                                $ref?: undefined;
                                                                             };
-                                                                        };
+                                                                        } | {
+                                                                            type: string;
+                                                                            required: string[];
+                                                                            properties: {
+                                                                                $ref: {
+                                                                                    type: string;
+                                                                                };
+                                                                                properties?: undefined;
+                                                                            };
+                                                                        })[];
                                                                     };
                                                                 };
+                                                                $ref?: undefined;
                                                                 properties?: undefined;
                                                             };
                                                         })[];
@@ -391,10 +487,21 @@ declare const _default: {
                                                 type: string;
                                                 required: string[];
                                                 properties: {
+                                                    $ref: {
+                                                        type: string;
+                                                    };
+                                                    properties?: undefined;
+                                                    allOf?: undefined;
+                                                };
+                                            } | {
+                                                type: string;
+                                                required: string[];
+                                                properties: {
                                                     properties: {
                                                         type: string;
                                                         required: string[];
                                                     };
+                                                    $ref?: undefined;
                                                     allOf?: undefined;
                                                 };
                                             } | {
@@ -405,16 +512,29 @@ declare const _default: {
                                                         type: string;
                                                         minItems: number;
                                                         contains: {
-                                                            type: string;
-                                                            required: string[];
-                                                            properties: {
+                                                            anyOf: ({
+                                                                type: string;
+                                                                required: string[];
                                                                 properties: {
-                                                                    type: string;
-                                                                    required: string[];
+                                                                    properties: {
+                                                                        type: string;
+                                                                        required: string[];
+                                                                    };
+                                                                    $ref?: undefined;
                                                                 };
-                                                            };
+                                                            } | {
+                                                                type: string;
+                                                                required: string[];
+                                                                properties: {
+                                                                    $ref: {
+                                                                        type: string;
+                                                                    };
+                                                                    properties?: undefined;
+                                                                };
+                                                            })[];
                                                         };
                                                     };
+                                                    $ref?: undefined;
                                                     properties?: undefined;
                                                 };
                                             })[];
@@ -445,10 +565,21 @@ declare const _default: {
                                                 type: string;
                                                 required: string[];
                                                 properties: {
+                                                    $ref: {
+                                                        type: string;
+                                                    };
+                                                    properties?: undefined;
+                                                    allOf?: undefined;
+                                                };
+                                            } | {
+                                                type: string;
+                                                required: string[];
+                                                properties: {
                                                     properties: {
                                                         type: string;
                                                         required: string[];
                                                     };
+                                                    $ref?: undefined;
                                                     allOf?: undefined;
                                                 };
                                             } | {
@@ -459,16 +590,29 @@ declare const _default: {
                                                         type: string;
                                                         minItems: number;
                                                         contains: {
-                                                            type: string;
-                                                            required: string[];
-                                                            properties: {
+                                                            anyOf: ({
+                                                                type: string;
+                                                                required: string[];
                                                                 properties: {
-                                                                    type: string;
-                                                                    required: string[];
+                                                                    properties: {
+                                                                        type: string;
+                                                                        required: string[];
+                                                                    };
+                                                                    $ref?: undefined;
                                                                 };
-                                                            };
+                                                            } | {
+                                                                type: string;
+                                                                required: string[];
+                                                                properties: {
+                                                                    $ref: {
+                                                                        type: string;
+                                                                    };
+                                                                    properties?: undefined;
+                                                                };
+                                                            })[];
                                                         };
                                                     };
+                                                    $ref?: undefined;
                                                     properties?: undefined;
                                                 };
                                             })[];

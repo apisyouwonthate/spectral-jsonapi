@@ -217,6 +217,32 @@ describe("Rule resource-object-id-required", () => {
     );
   });
 
+  it("valid: allOf with only a $ref when base schema provides id", async () => {
+    await expectRuleErrors(
+      spectral,
+      "resource-object-id-required",
+      componentResponseDocument("Media", {
+        BaseModel: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+            },
+          },
+        },
+        Media: {
+          title: "Media",
+          allOf: [
+            {
+              $ref: "#/components/schemas/BaseModel",
+            },
+          ],
+        },
+      }),
+      [],
+    );
+  });
+
   it("invalid: response resource object missing id", async () => {
     await expectRuleErrors(
       spectral,
@@ -513,6 +539,70 @@ describe("Rule resource-object-id-required", () => {
                       enum: ["included_b"],
                     },
                   },
+                },
+              ],
+            },
+          },
+        },
+      },
+      [],
+    );
+  });
+
+  it("valid: collection items anyOf with single $ref to composed schema", async () => {
+    await expectRuleErrors(
+      spectral,
+      "resource-object-id-required",
+      {
+        openapi: "3.1.0",
+        info: {
+          title: "Test",
+          version: "1.0.0",
+        },
+        paths: {
+          "/properties": {
+            get: {
+              responses: {
+                "200": {
+                  description: "ok",
+                  content: {
+                    "application/vnd.api+json": {
+                      schema: {
+                        type: "object",
+                        properties: {
+                          data: {
+                            type: "array",
+                            items: {
+                              anyOf: [
+                                {
+                                  $ref: "#/components/schemas/Media",
+                                },
+                              ],
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        components: {
+          schemas: {
+            BaseModel: {
+              type: "object",
+              properties: {
+                id: {
+                  type: "string",
+                },
+              },
+            },
+            Media: {
+              allOf: [
+                {
+                  $ref: "#/components/schemas/BaseModel",
                 },
               ],
             },

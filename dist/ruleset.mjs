@@ -311,6 +311,15 @@ var resourceObjectIdLeafSchema = {
   anyOf: [
     {
       type: "object",
+      required: ["$ref"],
+      properties: {
+        $ref: {
+          type: "string"
+        }
+      }
+    },
+    {
+      type: "object",
       required: ["properties"],
       properties: {
         properties: {
@@ -327,14 +336,27 @@ var resourceObjectIdLeafSchema = {
           type: "array",
           minItems: 1,
           contains: {
-            type: "object",
-            required: ["properties"],
-            properties: {
-              properties: {
+            anyOf: [
+              {
                 type: "object",
-                required: ["id"]
+                required: ["properties"],
+                properties: {
+                  properties: {
+                    type: "object",
+                    required: ["id"]
+                  }
+                }
+              },
+              {
+                type: "object",
+                required: ["$ref"],
+                properties: {
+                  $ref: {
+                    type: "string"
+                  }
+                }
               }
-            }
+            ]
           }
         }
       }
