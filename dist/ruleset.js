@@ -1,0 +1,3085 @@
+"use strict";
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/ruleset.ts
+var ruleset_exports = {};
+__export(ruleset_exports, {
+  default: () => ruleset_default
+});
+module.exports = __toCommonJS(ruleset_exports);
+var import_spectral_functions = require("@stoplight/spectral-functions");
+var import_spectral_formats = require("@stoplight/spectral-formats");
+
+// node_modules/@stoplight/types/dist/index.mjs
+var HttpOperationSecurityDeclarationTypes;
+(function(HttpOperationSecurityDeclarationTypes2) {
+  HttpOperationSecurityDeclarationTypes2["None"] = "none";
+  HttpOperationSecurityDeclarationTypes2["Declared"] = "declared";
+  HttpOperationSecurityDeclarationTypes2["InheritedFromService"] = "inheritedFromService";
+})(HttpOperationSecurityDeclarationTypes || (HttpOperationSecurityDeclarationTypes = {}));
+var HttpParamStyles;
+(function(HttpParamStyles2) {
+  HttpParamStyles2["Unspecified"] = "unspecified";
+  HttpParamStyles2["Simple"] = "simple";
+  HttpParamStyles2["Matrix"] = "matrix";
+  HttpParamStyles2["Label"] = "label";
+  HttpParamStyles2["Form"] = "form";
+  HttpParamStyles2["CommaDelimited"] = "commaDelimited";
+  HttpParamStyles2["SpaceDelimited"] = "spaceDelimited";
+  HttpParamStyles2["PipeDelimited"] = "pipeDelimited";
+  HttpParamStyles2["DeepObject"] = "deepObject";
+  HttpParamStyles2["TabDelimited"] = "tabDelimited";
+})(HttpParamStyles || (HttpParamStyles = {}));
+var DiagnosticSeverity;
+(function(DiagnosticSeverity2) {
+  DiagnosticSeverity2[DiagnosticSeverity2["Error"] = 0] = "Error";
+  DiagnosticSeverity2[DiagnosticSeverity2["Warning"] = 1] = "Warning";
+  DiagnosticSeverity2[DiagnosticSeverity2["Information"] = 2] = "Information";
+  DiagnosticSeverity2[DiagnosticSeverity2["Hint"] = 3] = "Hint";
+})(DiagnosticSeverity || (DiagnosticSeverity = {}));
+var NodeType;
+(function(NodeType2) {
+  NodeType2["Article"] = "article";
+  NodeType2["HttpService"] = "http_service";
+  NodeType2["HttpServer"] = "http_server";
+  NodeType2["HttpOperation"] = "http_operation";
+  NodeType2["HttpCallback"] = "http_callback";
+  NodeType2["HttpWebhook"] = "http_webhook";
+  NodeType2["Model"] = "model";
+  NodeType2["Generic"] = "generic";
+  NodeType2["Unknown"] = "unknown";
+  NodeType2["TableOfContents"] = "table_of_contents";
+  NodeType2["SpectralRuleset"] = "spectral_ruleset";
+  NodeType2["Styleguide"] = "styleguide";
+  NodeType2["Image"] = "image";
+  NodeType2["StoplightResolutions"] = "stoplight_resolutions";
+  NodeType2["StoplightOverride"] = "stoplight_override";
+})(NodeType || (NodeType = {}));
+var NodeFormat;
+(function(NodeFormat2) {
+  NodeFormat2["Json"] = "json";
+  NodeFormat2["Markdown"] = "markdown";
+  NodeFormat2["Yaml"] = "yaml";
+  NodeFormat2["Javascript"] = "javascript";
+  NodeFormat2["Apng"] = "apng";
+  NodeFormat2["Avif"] = "avif";
+  NodeFormat2["Bmp"] = "bmp";
+  NodeFormat2["Gif"] = "gif";
+  NodeFormat2["Jpeg"] = "jpeg";
+  NodeFormat2["Png"] = "png";
+  NodeFormat2["Svg"] = "svg";
+  NodeFormat2["Webp"] = "webp";
+})(NodeFormat || (NodeFormat = {}));
+
+// src/ruleset.ts
+var relationshipPropertiesSchema = {
+  type: "object",
+  anyOf: [
+    { required: ["links"] },
+    { required: ["data"] },
+    { required: ["meta"] }
+  ],
+  properties: {
+    links: {
+      type: "object",
+      properties: {
+        type: {
+          anyOf: [
+            {
+              type: "string",
+              enum: ["object"]
+            },
+            {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "string",
+                enum: ["object"]
+              }
+            }
+          ]
+        },
+        properties: {
+          type: "object",
+          anyOf: [{ required: ["self"] }, { required: ["related"] }],
+          properties: {
+            self: {
+              type: "object"
+            },
+            related: {
+              type: "object"
+            }
+          }
+        }
+      }
+    },
+    data: {
+      type: "object",
+      anyOf: [
+        {
+          properties: {
+            type: {
+              type: "string",
+              enum: ["object", "array", "null"]
+            }
+          }
+        },
+        {
+          properties: {
+            type: {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "string",
+                enum: ["object", "array", "null"]
+              }
+            }
+          }
+        },
+        {
+          properties: {
+            oneOf: {
+              type: "array",
+              minItems: 1
+            }
+          }
+        }
+      ]
+    },
+    meta: {
+      type: "object",
+      properties: {
+        type: {
+          anyOf: [
+            {
+              type: "string",
+              enum: ["object"]
+            },
+            {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "string",
+                enum: ["object"]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  additionalProperties: false
+};
+var relationshipSchemaRuleSchema = {
+  type: "object",
+  anyOf: [
+    {
+      required: ["properties"],
+      properties: {
+        type: {
+          anyOf: [
+            {
+              type: "string",
+              enum: ["object"]
+            },
+            {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "string",
+                enum: ["object"]
+              }
+            }
+          ]
+        },
+        properties: relationshipPropertiesSchema
+      }
+    },
+    {
+      required: ["allOf"],
+      properties: {
+        allOf: {
+          type: "array",
+          minItems: 1,
+          contains: {
+            type: "object",
+            required: ["properties"],
+            properties: {
+              properties: relationshipPropertiesSchema
+            }
+          }
+        }
+      }
+    }
+  ]
+};
+var relationshipDataEntrySchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "object",
+      properties: {
+        type: {
+          anyOf: [
+            {
+              type: "string",
+              enum: ["string"]
+            },
+            {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "string",
+                enum: ["string"]
+              }
+            }
+          ]
+        }
+      }
+    },
+    type: {
+      type: "object",
+      properties: {
+        type: {
+          anyOf: [
+            {
+              type: "string",
+              enum: ["string"]
+            },
+            {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "string",
+                enum: ["string"]
+              }
+            }
+          ]
+        }
+      }
+    },
+    meta: {
+      type: "object",
+      properties: {
+        type: {
+          anyOf: [
+            {
+              type: "string",
+              enum: ["object"]
+            },
+            {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "string",
+                enum: ["object"]
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+};
+var relationshipDataSchemaRuleSchema = {
+  anyOf: [
+    relationshipDataEntrySchema,
+    {
+      type: "object",
+      properties: {
+        type: {
+          anyOf: [
+            {
+              type: "string",
+              enum: ["array"]
+            },
+            {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "string",
+                enum: ["array"]
+              }
+            }
+          ]
+        },
+        items: relationshipDataEntrySchema
+      }
+    }
+  ]
+};
+var resourceObjectIdLeafSchema = {
+  anyOf: [
+    {
+      type: "object",
+      required: ["$ref"],
+      properties: {
+        $ref: {
+          type: "string"
+        }
+      }
+    },
+    {
+      type: "object",
+      required: ["properties"],
+      properties: {
+        properties: {
+          type: "object",
+          required: ["id"]
+        }
+      }
+    },
+    {
+      type: "object",
+      required: ["allOf"],
+      properties: {
+        allOf: {
+          type: "array",
+          minItems: 1,
+          contains: {
+            anyOf: [
+              {
+                type: "object",
+                required: ["properties"],
+                properties: {
+                  properties: {
+                    type: "object",
+                    required: ["id"]
+                  }
+                }
+              },
+              {
+                type: "object",
+                required: ["$ref"],
+                properties: {
+                  $ref: {
+                    type: "string"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+};
+var resourceObjectIdOptOutSchema = {
+  type: "object",
+  required: ["x-jsonapi-virtual-resource"],
+  properties: {
+    "x-jsonapi-virtual-resource": {
+      const: true
+    }
+  }
+};
+var resourceObjectIdRuleSchema = {
+  anyOf: [
+    resourceObjectIdOptOutSchema,
+    resourceObjectIdLeafSchema,
+    {
+      type: "object",
+      required: ["items"],
+      properties: {
+        items: {
+          anyOf: [
+            resourceObjectIdOptOutSchema,
+            resourceObjectIdLeafSchema,
+            {
+              type: "object",
+              required: ["anyOf"],
+              properties: {
+                anyOf: {
+                  type: "array",
+                  minItems: 1,
+                  items: {
+                    anyOf: [
+                      resourceObjectIdOptOutSchema,
+                      resourceObjectIdLeafSchema
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              type: "object",
+              required: ["oneOf"],
+              properties: {
+                oneOf: {
+                  type: "array",
+                  minItems: 1,
+                  items: {
+                    anyOf: [
+                      resourceObjectIdOptOutSchema,
+                      resourceObjectIdLeafSchema
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: "object",
+      required: ["anyOf"],
+      properties: {
+        anyOf: {
+          type: "array",
+          minItems: 1,
+          items: {
+            anyOf: [resourceObjectIdOptOutSchema, resourceObjectIdLeafSchema]
+          }
+        }
+      }
+    },
+    {
+      type: "object",
+      required: ["oneOf"],
+      properties: {
+        oneOf: {
+          type: "array",
+          minItems: 1,
+          items: {
+            anyOf: [resourceObjectIdOptOutSchema, resourceObjectIdLeafSchema]
+          }
+        }
+      }
+    }
+  ]
+};
+var schemaFirstError = (...args) => {
+  const result = (0, import_spectral_functions.schema)(...args);
+  if (result instanceof Promise) {
+    return result.then(
+      (errors) => Array.isArray(errors) && errors.length > 0 ? [errors[0]] : errors
+    );
+  }
+  return Array.isArray(result) && result.length > 0 ? [result[0]] : result;
+};
+var ruleset_default = {
+  description: `# [{json:api}](https://jsonapi.org/) - [v1.1](https://jsonapi.org/format/1.1/)
+
+JSON:API is a media format for building APIs in JSON, that covers how clients and servers should communicate to minimize both the number of requests and the amount of data transmitted between clients and servers. 
+
+JSON:API requires use of the JSON:API media type \`application/vnd.api+json\` for exchanging data.
+
+This ruleset can be found on GitHub: [spectral-jsonapi](https://github.com/philsturgeon/spectral-jsonapi)`,
+  formats: [import_spectral_formats.oas3],
+  aliases: {
+    AllContentSchemas: ["$.paths..content['application/vnd.api+json'].schema"],
+    ResourceObjects: [
+      "$.paths..responses..content[application/vnd.api+json].schema.properties.data.properties",
+      "$.paths..responses..content[application/vnd.api+json].schema.properties.data.allOf[*].properties",
+      "$.paths..responses..content[application/vnd.api+json].schema.properties.data.items.properties",
+      "$.paths..responses..content[application/vnd.api+json].schema.properties.data.items.allOf[*].properties",
+      "$.paths..content[application/vnd.api+json].schema.properties.included.items.properties",
+      "$.paths..content[application/vnd.api+json].schema.properties.included.items.allOf[*].properties",
+      "$.paths..patch.requestBody.content[application/vnd.api+json].schema.properties.data.properties",
+      "$.paths..patch.requestBody.content[application/vnd.api+json].schema.properties.data.allOf[*].properties"
+    ],
+    POSTResourceObjects: [
+      "$.paths..post.requestBody.content[application/vnd.api+json].schema.properties.data.properties",
+      "$.paths..post.requestBody.content[application/vnd.api+json].schema.properties.data.allOf[*].properties"
+    ],
+    LinkObjects: ["#AllContentSchemas..properties[links]"],
+    MetaObjects: ["#AllContentSchemas..properties[meta]"],
+    Relationships: ["#AllContentSchemas..properties[relationships]"],
+    RelationshipData: ["#Relationships..data"],
+    POSTRelationships: [
+      "$.paths..post.requestBody.content[application/vnd.api+json].schema.properties.data.properties[relationships].properties[*]",
+      "$.paths..post.requestBody.content[application/vnd.api+json].schema.properties.data.allOf[*].properties[relationships].properties[*]"
+    ],
+    PATCHRelationships: [
+      "$.paths..patch.requestBody.content[application/vnd.api+json].schema.properties.data.properties[relationships].properties[*]",
+      "$.paths..patch.requestBody.content[application/vnd.api+json].schema.properties.data.allOf[*].properties[relationships].properties[*]"
+    ],
+    ErrorObjects: [
+      "$.paths..responses[default,400,500].content[application/vnd.api+json].schema.properties.errors.items.properties",
+      "$.paths..responses[default,400,500].content[application/vnd.api+json].schema.properties.errors.items.allOf[*].properties",
+      "$.paths..responses[?(@property > '400' && @property < '600')].content[application/vnd.api+json].schema.properties.errors.items.properties",
+      "$.paths..responses[?(@property > '400' && @property < '600')].content[application/vnd.api+json].schema.properties.errors.items.allOf[*].properties"
+    ]
+  },
+  rules: {
+    "content-type": {
+      description: `
+Requests and responses **MUST** all use the content type of \`application/vnd.api+json\`.
+
+**Invalid Examples:**
+\`\`\`yaml
+requestBody:
+  content:
+    application/json
+
+responses:
+  '200':
+    content:
+      application/json
+\`\`\`
+
+**Valid Examples:**
+\`\`\`yaml
+requestBody:
+  content:
+    application/vnd.api+json
+
+responses:
+  '200':
+    content:
+      application/vnd.api+json
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#content-negotiation-servers).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#content-negotiation",
+      message: "Use application/vnd.api+json for all request and response bodies.",
+      severity: DiagnosticSeverity.Error,
+      given: ["$.paths..requestBody.content", "$.paths..responses..content"],
+      then: {
+        field: "@key",
+        function: import_spectral_functions.pattern,
+        functionOptions: {
+          match: "^application/vnd\\.api\\+json;?"
+        }
+      }
+    },
+    "406-response-code": {
+      description: `Servers **MUST** describe response code **406** paths in case of invalid \`Accept\` values.
+
+**Invalid Example:**
+\`\`\`yaml
+paths:
+  /myResources:
+    get:
+      responses:
+        '200':
+          $ref: '#/components/responses/MyResource_Collection'
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+paths:
+  /myResources:
+    get:
+      responses:
+        '200':
+          $ref: '#/components/responses/MyResource_Collection'
+        '406':
+          $ref: '#/components/responses/406Error'
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#content-negotiation-servers).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#content-negotiation-servers",
+      message: "Document a 406 response for invalid Accept headers.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths..responses",
+      then: {
+        field: "406",
+        function: import_spectral_functions.truthy
+      }
+    },
+    "415-response-code": {
+      description: `Servers **MUST** describe response code **415** on \`POST\` or \`PATCH\` paths in case of invalid \`Content-Type\` values.
+
+**Invalid Example:**
+\`\`\`yaml
+paths:
+  /myResources:
+    post:
+      responses:
+        '200':
+          $ref: '#/components/responses/MyResource_Collection'
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+paths:
+  /myResources:
+    post:
+      responses:
+        '200':
+          $ref: '#/components/responses/MyResource_Collection'
+        '415':
+          $ref: '#/components/responses/415Error'
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#content-negotiation-servers).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#content-negotiation-servers",
+      message: "Document a 415 response for invalid Content-Type headers on POST and PATCH.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths[*][post,patch].responses",
+      then: {
+        field: "415",
+        function: import_spectral_functions.truthy
+      }
+    },
+    "top-level-json-object": {
+      description: `A JSON object **MUST** be at the root of every JSON:API request/response body containing data.
+
+**Valid Example:**
+\`\`\`yaml
+content:
+  application/vnd.api+json:
+    schema:
+      type: object
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-top-level).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-top-level",
+      message: "Request and response bodies must have a top-level JSON object.",
+      severity: DiagnosticSeverity.Error,
+      given: "#AllContentSchemas",
+      then: {
+        field: "type",
+        function: import_spectral_functions.enumeration,
+        functionOptions: {
+          values: ["object"]
+        }
+      }
+    },
+    "top-level-json-properties": {
+      description: `Root JSON object **MUST** follow the jsonapi schema.
+
+**Schema Rules:**
+- **MUST** contain at least one of: \`data\`, \`errors\`, \`meta\` properties
+- \`data\` and \`errors\` **MAY NOT** coexist in the same document
+- **MAY** contain: \`jsonapi\`, \`links\`, \`included\`
+- if \`included\` exists, \`data\` is **REQUIRED**
+
+**Invalid Examples:**
+\`\`\`yaml
+type: object
+properties:
+    data:
+        type: object
+    errors:
+        type: array
+type: object
+properties:
+    links:
+        type: object
+    included:
+        type: array
+\`\`\`
+
+**Valid Examples:**
+\`\`\`yaml
+type: object
+properties:
+    jsonapi:
+        type: object
+    links:
+        type: object
+    meta:
+        type: object
+    data:
+        type: object
+    included:
+        type: array
+type: object
+properties:
+    errors:
+        type: array
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-top-level).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-top-level",
+      message: "Top-level documents must include data, errors, or meta and follow JSON:API member rules.",
+      severity: DiagnosticSeverity.Error,
+      given: "#AllContentSchemas",
+      then: {
+        field: "properties",
+        function: import_spectral_functions.schema,
+        functionOptions: {
+          schema: {
+            type: "object",
+            anyOf: [
+              {
+                required: ["data"]
+              },
+              {
+                required: ["errors"]
+              },
+              {
+                required: ["meta"]
+              }
+            ],
+            not: {
+              anyOf: [
+                {
+                  required: ["data", "errors"]
+                }
+              ]
+            },
+            dependentRequired: {
+              included: ["data"]
+            },
+            properties: {
+              data: {
+                type: "object",
+                properties: {
+                  type: {
+                    type: "string",
+                    enum: ["object", "array", "null"]
+                  }
+                }
+              },
+              errors: {
+                type: "object",
+                properties: {
+                  type: {
+                    type: "string",
+                    enum: ["array"]
+                  }
+                }
+              },
+              meta: {
+                type: "object",
+                properties: {
+                  type: {
+                    type: "string",
+                    enum: ["object"]
+                  }
+                }
+              },
+              jsonapi: {
+                type: "object",
+                properties: {
+                  type: {
+                    type: "string",
+                    enum: ["object"]
+                  }
+                }
+              },
+              links: {
+                type: "object",
+                properties: {
+                  type: {
+                    type: "string",
+                    enum: ["object"]
+                  }
+                }
+              },
+              included: {
+                type: "object",
+                properties: {
+                  type: {
+                    type: "string",
+                    enum: ["array"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "resource-object-properties": {
+      description: `Verify allowed properties in Resource Objects
+
+**Allowed properties:** \`id\`, \`type\`, \`attributes\`, \`relationships\`, \`links\`, and \`meta\`.
+
+**Invalid Example:**
+\`\`\`yaml
+type: object
+properties:
+  id:
+    type: string
+    format: uri
+    example: 4257c52f-6c78-4747-8106-e185c081436b
+  type:
+    type: string
+    enum:
+      - resources
+  name:
+    type: string
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+type: object
+required:
+  - id
+  - type
+  - attributes
+  - relationships
+properties:
+  id:
+    type: string
+    format: uri
+    example: 4257c52f-6c78-4747-8106-e185c081436b
+  type:
+    type: string
+    enum:
+      - resources
+  attributes:
+    type: object
+  relationships:
+    type: object
+  meta:
+    type: object
+  links:
+    type: object
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-objects).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-objects",
+      message: "Resource objects may only use id, type, attributes, relationships, links, and meta.",
+      severity: DiagnosticSeverity.Error,
+      given: ["#ResourceObjects", "#POSTResourceObjects"],
+      then: [
+        {
+          field: "type",
+          function: import_spectral_functions.truthy
+        },
+        {
+          field: "@key",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: [
+              "id",
+              "type",
+              "attributes",
+              "relationships",
+              "links",
+              "meta"
+            ]
+          }
+        }
+      ]
+    },
+    "resource-object-id-required": {
+      description: `Verify \`id\` property exists in Resource Object (except POST requestBody)
+
+Set \`x-jsonapi-virtual-resource: true\` on a resource schema to opt out when the resource is intentionally non-standard (for example, ephemeral computed resources that do not have stable IDs).
+
+**Valid Example:**
+\`\`\`yaml
+# path..responses...
+# path.patch.requestBody...
+
+type: object
+required:
+  - id
+  - type
+properties:
+  id:
+    type: string
+    format: uuid
+    example: 4257c52f-6c78-4747-8106-e185c081436b
+  type:
+    type: string
+  meta:
+    type: object
+\`\`\`
+**NOTE:** Currently this rule triggers against \`allOf\` structures unless all items have \`id\`. Until this is corrected it is set as a warning.
+
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-objects).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-objects",
+      message: "Resource objects should include an id property.",
+      severity: DiagnosticSeverity.Warning,
+      resolved: true,
+      given: [
+        "$.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === 'type' && @ === 'object')]^",
+        "$.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === '$ref')]^",
+        "$.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === 'allOf')]^",
+        "$.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === 'anyOf')]^",
+        "$.paths..responses..content[application/vnd.api+json].schema.properties.data[?(@property === 'oneOf')]^",
+        "$.paths..responses..content[application/vnd.api+json].schema.properties.data.items",
+        "$.paths..content[application/vnd.api+json].schema.properties.included.items"
+      ],
+      then: {
+        function: schemaFirstError,
+        functionOptions: {
+          dialect: "draft2020-12",
+          allErrors: false,
+          schema: resourceObjectIdRuleSchema
+        }
+      }
+    },
+    "resource-object-property-types": {
+      description: `\`id\` and \`type\` **MUST** be of type \`string\`
+
+**Invalid Example:**
+\`\`\`yaml
+type: object
+properties:
+  id:
+    type: number
+  type:
+    type: string
+    enum:
+      - resources
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+type: object
+required:
+  - id
+  - type
+properties:
+  id:
+    type: string
+    format: uri
+    example: 4257c52f-6c78-4747-8106-e185c081436b
+  type:
+    type: string
+    enum:
+      - resources
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-identification).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-identification",
+      message: "Resource object id and type must both be strings.",
+      severity: DiagnosticSeverity.Error,
+      given: [
+        "#ResourceObjects.id",
+        "#ResourceObjects.type",
+        "#POSTResourceObjects.type"
+      ],
+      then: {
+        field: "type",
+        function: import_spectral_functions.enumeration,
+        functionOptions: {
+          values: ["string"]
+        }
+      }
+    },
+    "resource-object-reserved-fields": {
+      description: `\`id\` and \`type\` **MUST NOT** exist in \`attributes\` or \`relationships\`
+
+**Invalid Example:**
+\`\`\`yaml
+type: object
+required:
+  - id
+  - type
+  - attributes
+properties:
+  id:
+    type: string
+    format: uri
+    example: 4257c52f-6c78-4747-8106-e185c081436b
+  type:
+    type: string
+    enum:
+      - resources
+  attributes:
+    type: object
+    properties:
+      id:
+        type: number
+      type:
+        type: string
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+type: object
+required:
+  - id
+  - type
+  - attributes
+properties:
+  id:
+    type: string
+    format: uri
+    example: 4257c52f-6c78-4747-8106-e185c081436b
+  type:
+    type: string
+    enum:
+      - resources
+  attributes:
+    type: object
+    properties:
+        name:
+          type: string
+        descrpition:
+          type: string
+  meta:
+    type: object
+  links:
+    type: object
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-fields).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-fields",
+      message: "Do not define id or type inside attributes or relationships.",
+      severity: DiagnosticSeverity.Error,
+      given: "#AllContentSchemas..properties[attributes,relationships].properties[?(@.deprecated!=true)]~",
+      then: {
+        function: import_spectral_functions.pattern,
+        functionOptions: {
+          notMatch: "^(id|type)$"
+        }
+      }
+    },
+    "attributes-object-type": {
+      description: `\`attributes\` property **MUST** be an \`object\`
+
+**Invalid Examples:**
+\`\`\`yaml
+# data (Resource Object)
+# ...  
+properties:
+  attributes:
+    type: array 
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+# data (Resource Object)
+# ...  
+properties:
+  attributes:
+    type: object
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-attributes).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-attributes",
+      message: "attributes must be an object.",
+      severity: DiagnosticSeverity.Error,
+      given: "#AllContentSchemas..properties[attributes]",
+      then: {
+        field: "type",
+        function: import_spectral_functions.enumeration,
+        functionOptions: {
+          values: ["object"]
+        }
+      }
+    },
+    "attributes-object-properties": {
+      description: `\`attributes\` object **MUST NOT** contain a \`relationships\` or \`links\` property
+
+**Invalid Example:**
+\`\`\`yaml
+# data (Resource Object)
+# ...  
+properties:
+  attributes:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        example: do-hickey
+      description:
+        type: string
+        example: thing that does stuff
+      links:
+        type: array
+          items:
+            type: string
+      relationships:
+        type: array
+          items:
+            type: string
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+# data (Resource Object)
+# ...  
+properties:
+  attributes:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        example: do-hickey
+      description:
+        type: string
+        example: thing that does stuff
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-attributes).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-attributes",
+      message: "attributes must not contain links or relationships.",
+      severity: DiagnosticSeverity.Error,
+      given: "#AllContentSchemas..properties[attributes]..properties",
+      then: [
+        {
+          field: "relationships",
+          function: import_spectral_functions.falsy
+        },
+        {
+          field: "links",
+          function: import_spectral_functions.falsy
+        }
+      ]
+    },
+    "attributes-object-foreign-keys": {
+      description: `Foreign Keys **SHOULD NOT** appear in \`attributes\`. **RECOMMEND** using \`relationships\`
+
+Although has-one foreign keys (e.g. author_id) are often stored internally alongside other information to be represented in a resource object, these keys **SHOULD NOT** appear as attributes.
+
+Foreign keys are supported through the use of [relationships](https://jsonapi.org/format/1.1/#document-resource-object-relationships) and [related resource links](https://jsonapi.org/format/1.1/#document-resource-object-related-resource-links).
+
+**Example:** Use relationship primary data rather than foreign key.
+\`\`\`yaml
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+  type:
+    type: string
+    enum:
+      - widgets
+  attributes:
+    type: object
+      required:
+        - name
+      properties:
+        account_id:
+          type: string
+        name:
+          type: string
+          example: do-hickey
+        description:
+          type: string
+          example: thing that does stuff
+  relationships:
+    type: object
+    properties:
+      manufacturer: #<------ a widget has a relationship with a manufacturer
+        type: object
+          required:
+            - links
+            - data
+          properties:
+            data:
+              type: object
+              properties:
+                id: #<---------- primary/foreign key value
+                  type: string
+                  format: uuid
+                type:
+                  type: string
+                  enum:
+                    - businesses
+\`\`\`
+**NOTE:** This would normally be a severity of \`hint\`, though this can be missed visually in vscode. Until this changes it will be a severity of \`info\`.
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-attributes).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-attributes",
+      message: "attributes should not include *_id foreign keys; model links with relationships.",
+      severity: DiagnosticSeverity.Information,
+      given: "#AllContentSchemas..properties[attributes]..properties[*]~",
+      then: {
+        function: import_spectral_functions.pattern,
+        functionOptions: {
+          notMatch: ".*_id$"
+        }
+      }
+    },
+    "relationships-object-type": {
+      description: `relationships **MUST** be an \`object\`
+
+**Invalid Example:**
+\`\`\`yaml
+relationships:
+  type: array
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+relationships:
+  type: object
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-relationships).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-relationships",
+      severity: DiagnosticSeverity.Error,
+      given: "#Relationships",
+      then: {
+        field: "type",
+        function: import_spectral_functions.enumeration,
+        functionOptions: {
+          values: ["object"]
+        }
+      },
+      resolved: true
+    },
+    "relationship-schema": {
+      description: `relationship object **MUST** follow the schema
+
+**Schema Rules:**
+- **MUST** contain at least one of: \`links\`,\`data\`,\`meta\`
+- \`links\` object **MUST** contain at least one of: \`self\`, \`related\`
+- \`data\` **MAY** be \`null\`, single or array of resource identifiers
+- \`meta\` **MUST** be an \`object\`
+
+**Valid Example:**
+\`\`\`yaml
+'relationshipNameSingle':
+  type: object
+    required: [links, data]
+    properties:
+      links:
+        type: object
+        required: [self, related]
+        properties:
+          self:
+            $ref: '#/components/schemas/Link'
+            example: http://api.domain.com/v1/myResources/{id}/relationships/manufacturers
+          related:
+            type: string
+            example: http://api.domain.com/v1/manufacturers/{id}
+      data:
+        type: object
+        required: [id, type]
+        properties:
+          id:
+            type: string
+            format: uuid
+            example: 4257c52f-6c78-4747-8106-e185c081436b
+          type:
+            type: string
+            enum:
+              - 'relationshipNamePlural'
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-object-relationships).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-object-relationships",
+      message: "Each relationship object must include links, data, or meta, and match JSON:API structure.",
+      severity: DiagnosticSeverity.Error,
+      given: "#Relationships.properties[*]",
+      then: {
+        function: import_spectral_functions.schema,
+        functionOptions: {
+          dialect: "draft2020-12",
+          schema: relationshipSchemaRuleSchema
+        }
+      }
+    },
+    "relationship-data-properties": {
+      description: `relationship \`data\` **MAY** only contain: \`id\`, \`type\` and \`meta\`
+      
+  **Invalid Example:**
+  \`\`\`yaml
+  type: object
+  required:
+    - id
+    - type
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: 2357c52f-6c78-4747-8106-e185c08143aa
+    type:
+      type: string
+    attributes:
+      type: object
+    meta:
+      type: object
+  \`\`\`
+
+  **Valid Example:**
+  \`\`\`yaml
+  type: object
+  required:
+    - id
+    - type
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: 2357c52f-6c78-4747-8106-e185c08143aa
+    type:
+      type: string
+    meta:
+      type: object
+  \`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-identifier-objects).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-identifier-objects",
+      message: "Relationship data may only include id, type, and meta.",
+      severity: DiagnosticSeverity.Error,
+      given: [
+        "#RelationshipData.properties",
+        "#RelationshipData.allOf[*].properties",
+        "#RelationshipData.items.properties",
+        "#RelationshipData.items.allOf[*].properties"
+      ],
+      then: {
+        field: "@key",
+        function: import_spectral_functions.enumeration,
+        functionOptions: {
+          values: ["id", "type", "meta"]
+        }
+      }
+    },
+    "relationship-data-schema": {
+      description: `relationship data items **MUST** follow schema
+
+**Schema Rules:**
+- \`id\` **MUST** be a \`string\`
+- \`type\` **MUST** be a \`string\`
+- \`meta\` **MUST** be an \`object\`
+
+**Invalid Examples:**
+\`\`\`yaml
+type: object
+required:
+  - id
+  - type
+properties:
+  id:
+    type: number
+  type:
+    type: number
+  meta:
+    type: object
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+type: object
+required:
+  - id
+  - type
+properties:
+  id:
+    type: string
+    format: uuid
+    example: 2357c52f-6c78-4747-8106-e185c08143aa
+  type:
+    type: string
+  meta:
+    type: object   
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-resource-identifier-objects).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-resource-identifier-objects",
+      message: "Relationship data entries must match the resource identifier schema.",
+      severity: DiagnosticSeverity.Error,
+      given: [
+        "#RelationshipData.properties",
+        "#RelationshipData.allOf[0].properties",
+        "#RelationshipData.items.properties",
+        "#RelationshipData.items.allOf[0].properties"
+      ],
+      then: {
+        function: import_spectral_functions.schema,
+        functionOptions: {
+          dialect: "draft2020-12",
+          schema: relationshipDataSchemaRuleSchema
+        }
+      }
+    },
+    "meta-object": {
+      description: `\`meta\` property **MUST** be of type \`object\`
+
+**Invalid Examples:**
+\`\`\`yaml
+properties:
+  meta:
+    type: string 
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+properties:
+  meta:
+    type: object
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-meta).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-meta",
+      message: "meta must be an object.",
+      severity: DiagnosticSeverity.Error,
+      given: "#MetaObjects",
+      then: {
+        field: "type",
+        function: import_spectral_functions.enumeration,
+        functionOptions: {
+          values: ["object"]
+        }
+      }
+    },
+    "links-object": {
+      description: `\`links\` property **MUST** be an \`object\`
+
+**Invalid Examples:**
+\`\`\`yaml
+properties:
+  links:
+    type: array 
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+properties:
+  links:
+    type: object
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-links).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-links",
+      message: "links must be an object.",
+      severity: DiagnosticSeverity.Error,
+      given: "#LinkObjects",
+      then: {
+        field: "type",
+        function: import_spectral_functions.enumeration,
+        functionOptions: {
+          values: ["object"]
+        }
+      }
+    },
+    "links-object-schema": {
+      description: `A link **MUST** be represented as either a \`string\` containing the link's URL or an \`object\`.
+
+**Invalid Examples:**
+\`\`\`yaml
+properties:
+  links:
+    type: object
+    properties:
+        self:
+            type: number
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+properties:
+  links:
+    type: object
+    properties:
+        self:
+          oneOf:
+            - type: string
+              format: uri
+            - type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  format: uri
+                meta:
+                  type: object    
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-links).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-links",
+      message: "Each link value must be a string URL or a link object.",
+      severity: DiagnosticSeverity.Error,
+      given: "#LinkObjects.properties[*]..[?(@property === 'type')]^",
+      then: {
+        field: "type",
+        function: import_spectral_functions.enumeration,
+        functionOptions: {
+          values: ["string", "object"]
+        }
+      }
+    },
+    "links-object-schema-properties": {
+      description: `objects contained within a \`links\` object **MUST** contain \`href\` (string) and **MAY** contain \`meta\`
+
+A link **MUST** be represented as either a \`string\` containing the link's URL or an \`object\`.
+
+**Invalid Examples:**
+\`\`\`yaml
+properties:
+  links:
+    type: object
+    properties:
+        self:
+          oneOf:
+            - type: string
+              format: uri
+            - type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+                meta:
+                  type: object    
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+properties:
+  links:
+    type: object
+    properties:
+        self:
+          oneOf:
+            - type: string
+              format: uri
+            - type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  format: uri
+                meta:
+                  type: object    
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-links).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-links",
+      message: "Link objects may only contain href and meta, and must include href.",
+      severity: DiagnosticSeverity.Error,
+      given: "#LinkObjects.properties..properties",
+      then: [
+        {
+          field: "@key",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["href", "meta"]
+          }
+        },
+        {
+          field: "href",
+          function: import_spectral_functions.truthy
+        },
+        {
+          field: "href.type",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["string"]
+          }
+        }
+      ]
+    },
+    "jsonapi-object": {
+      description: `\`jsonapi\` object **MUST** match schema
+
+**Schema Rules:**
+- \`jsonapi\` **MUST** be an \`object\`
+- **MUST** contain \`string\` \`version\`
+
+**Valid Example:**
+\`\`\`yaml
+properties:
+  jsonapi:
+    type: object
+    properties:
+      version:
+        type: string
+        example: '1.0'
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#document-jsonapi-object).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#document-jsonapi-object",
+      message: "jsonapi must be an object with a string version.",
+      severity: DiagnosticSeverity.Error,
+      given: "#AllContentSchemas..properties[?(@property === 'jsonapi')]",
+      then: [
+        {
+          field: "type",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["object"]
+          }
+        },
+        {
+          field: "properties[*]~",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["version"]
+          }
+        },
+        {
+          field: "properties.version",
+          function: import_spectral_functions.truthy
+        },
+        {
+          field: "properties.version.type",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["string"]
+          }
+        }
+      ]
+    },
+    "get-200-response-code": {
+      description: `\`GET\` requests **MUST** support response code 200
+
+**Invalid Example:**
+\`\`\`yaml
+paths:
+  /tickets/{id}:
+    get:
+      responses:
+        '404':
+          $ref: '#/components/responses/404Error'
+\`\`\`
+
+**Valid Examples:**
+\`\`\`yaml
+paths:
+  /tickets/{id}:
+    get:
+      responses:
+        '200':
+          $ref: '#/components/responses/Ticket'
+        '404':
+          $ref: '#/components/responses/404Error'
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-resources-responses).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#fetching-resources-responses",
+      message: "GET operations must define a 200 response.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths[*][get].responses",
+      then: {
+        field: "200",
+        function: import_spectral_functions.truthy
+      }
+    },
+    "get-404-response-code": {
+      description: `\`GET\` requests to single resource endpoints **MUST** support response code 404
+
+Per the JSON:API specification, a server MUST respond with 404 Not Found when
+processing a request to fetch a single resource that does not exist.
+
+Single resource endpoints are identified by a path parameter (e.g. \`{id}\`).
+
+**Invalid Example:**
+\`\`\`yaml
+paths:
+  /tickets/{id}:
+    get:
+      responses:
+        '200':
+          $ref: '#/components/responses/Ticket'
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+paths:
+  /tickets/{id}:
+    get:
+      responses:
+        '200':
+          $ref: '#/components/responses/Ticket'
+        '404':
+          $ref: '#/components/responses/404Error'
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-resources-responses).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#fetching-resources-responses",
+      message: "Single-resource GET operations must define a 404 response.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths[?(@property.match(/{[^}]+}/))][get].responses",
+      then: {
+        field: "404",
+        function: import_spectral_functions.truthy
+      }
+    },
+    "400-response-code": {
+      description: `Servers **MUST** document and support response code **400** for all paths
+
+**Invalid Example:**
+\`\`\`yaml
+paths:
+  /myResources:
+    get:
+      responses:
+        '200':
+          $ref: '#/components/responses/MyResource_Collection'
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+paths:
+  /myResources:
+    get:
+      responses:
+        '200':
+          $ref: '#/components/responses/MyResource_Collection'
+        '400':
+          $ref: '#/components/responses/400Error'
+\`\`\``,
+      message: "Document a 400 response for every operation.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths..responses",
+      then: {
+        field: "400",
+        function: import_spectral_functions.truthy
+      }
+    },
+    "include-parameter": {
+      description: `\`include\` query param **MUST** be a string array (csv)
+
+**Valid Example:**
+\`\`\`yaml
+name: include
+description: csv formatted parameter of relationship names to include in response
+in: query
+style: form
+explode: false
+schema:
+type: array
+items:
+    type: string
+example: ["ratings","comments.author"]
+\`\`\`
+Example query string: \`/articles/1?include=comments.author,ratings\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-includes).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#fetching-includes",
+      message: "include must be a query parameter using CSV array style.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths..parameters[*][?(@property === 'name' && @ === 'include')]^",
+      then: [
+        {
+          field: "in",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["query"]
+          }
+        },
+        {
+          field: "style",
+          function: import_spectral_functions.truthy
+        },
+        {
+          field: "style",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["form"]
+          }
+        },
+        {
+          field: "explode",
+          function: import_spectral_functions.defined
+        },
+        {
+          field: "explode",
+          function: import_spectral_functions.falsy
+        },
+        {
+          field: "schema",
+          function: import_spectral_functions.schema,
+          functionOptions: {
+            dialect: "draft2020-12",
+            schema: {
+              type: "object",
+              properties: {
+                type: {
+                  type: "string",
+                  enum: ["array"]
+                },
+                items: {
+                  type: "object",
+                  properties: {
+                    type: {
+                      type: "string",
+                      enum: ["string"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "fields-parameter": {
+      description: `\`fields\` query param **MUST** be a \`deepObject\`
+
+**Valid Example:**
+\`\`\`yaml
+name: fields
+description: schema for 'fields' query parameter
+in: query
+schema:
+  type: object
+style: deepObject
+example:
+  people: "name"
+  articles: "title,body"
+\`\`\`
+Example query string: \`/articles?fields[articles]=title,body&fields[people]=name\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-sparse-fieldsets).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#fetching-sparse-fieldsets",
+      message: "fields must be a query parameter using deepObject style.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths..parameters[*][?(@property === 'name' && @ === 'fields')]^",
+      then: [
+        {
+          field: "in",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["query"]
+          }
+        },
+        {
+          field: "style",
+          function: import_spectral_functions.truthy
+        },
+        {
+          field: "style",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["deepObject"]
+          }
+        },
+        {
+          field: "schema",
+          function: import_spectral_functions.schema,
+          functionOptions: {
+            dialect: "draft2020-12",
+            schema: {
+              type: "object",
+              properties: {
+                type: {
+                  type: "string",
+                  enum: ["object"]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "sort-parameter": {
+      description: `\`sort\` query param **MUST** be a string array (csv)
+
+**Valid Example:**
+\`\`\`yaml
+name: sort
+description: csv formatted parameter of fields to sort by
+in: query
+style: form
+explode: false
+schema:
+  type: array
+  items:
+    type: string
+example: ["-age","name"]
+\`\`\`
+Example query string: \`/people?sort=-age,name\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-sorting).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#fetching-sorting",
+      message: "sort must be a query parameter using CSV array style.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths..parameters[*][?(@property === 'name' && @ === 'sort')]^",
+      then: [
+        {
+          field: "in",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["query"]
+          }
+        },
+        {
+          field: "style",
+          function: import_spectral_functions.truthy
+        },
+        {
+          field: "style",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["form"]
+          }
+        },
+        {
+          field: "explode",
+          function: import_spectral_functions.defined
+        },
+        {
+          field: "explode",
+          function: import_spectral_functions.falsy
+        },
+        {
+          field: "schema",
+          function: import_spectral_functions.schema,
+          functionOptions: {
+            dialect: "draft2020-12",
+            schema: {
+              type: "object",
+              properties: {
+                type: {
+                  type: "string",
+                  enum: ["array"]
+                },
+                items: {
+                  type: "object",
+                  properties: {
+                    type: {
+                      type: "string",
+                      enum: ["string"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "page-parameter": {
+      description: `\`page\` query param **MUST** follow schema
+
+**Schema Rules:**
+- **MUST** be type \`object\`
+- **MUST** be style \`deepObject\`
+- contents depend on strategy:
+  - cursor: \`string\` \`cursor\` and \`int32\` \`limit\`
+  - offset: \`int32\` \`offset\` and \`int32\` \`limit\`
+
+**Valid Examples:**
+\`\`\`yaml
+name: page
+description: Paging parameter, cursor based.
+in: query
+schema:
+  type: object
+  required: ["cursor","limit"]
+  properties:
+    cursor:
+      type: string
+    limit:
+      type: integer
+      format: int32
+style: deepObject
+
+name: page
+description: Paging parameter, offset based.
+in: query
+schema:
+  type: object
+  required: ["offset","limit"]
+  properties:
+    cursor:
+      type: integer
+      format: int32
+    limit:
+      type: integer
+      format: int32
+style: deepObject
+\`\`\`
+Example query string:
+- \`/myResources?page[cursor]=fdsJ34lkjSfjsdfk&page[limit]=10\`
+- \`/myResources?page[offset]=2&page[limit]=10\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-pagination).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#fetching-pagination",
+      message: "page must be a deepObject query parameter that matches the pagination schema.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths..parameters[*][?(@property === 'name' && @ === 'page')]^",
+      then: [
+        {
+          field: "in",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["query"]
+          }
+        },
+        {
+          field: "style",
+          function: import_spectral_functions.truthy
+        },
+        {
+          field: "style",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["deepObject"]
+          }
+        },
+        {
+          field: "schema",
+          function: import_spectral_functions.schema,
+          functionOptions: {
+            dialect: "draft2020-12",
+            schema: {
+              type: "object",
+              properties: {
+                type: {
+                  type: "string",
+                  enum: ["object"]
+                },
+                properties: {
+                  type: "object",
+                  additionalProperties: false,
+                  properties: {
+                    cursor: {
+                      type: "object",
+                      properties: {
+                        type: {
+                          type: "string",
+                          enum: ["string"]
+                        }
+                      }
+                    },
+                    offset: {
+                      type: "object",
+                      properties: {
+                        type: {
+                          type: "string",
+                          enum: ["integer"]
+                        },
+                        format: {
+                          type: "string",
+                          enum: ["int32"]
+                        },
+                        minimum: {
+                          type: "integer",
+                          minimum: 0
+                        }
+                      }
+                    },
+                    limit: {
+                      type: "object",
+                      properties: {
+                        type: {
+                          type: "string",
+                          enum: ["integer"]
+                        },
+                        format: {
+                          type: "string",
+                          enum: ["int32"]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "post-requests-single-object": {
+      description: `POST requests **MUST** only contain a single resource object
+
+**Invalid Example:**
+\`\`\`yaml
+content:
+  application/vnd.api+json:
+    schema:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+            type: array
+            items: 
+              $ref: '#/components/schemas/MyResourcePostObject'
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+content:
+  application/vnd.api+json:
+    schema:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: '#/components/schemas/MyResourcePostObject'
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating",
+      message: "POST request data must be a single resource object, not an array.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths..post.requestBody.content[application/vnd.api+json].schema.properties.data[?(@property==='type' && @ === 'array')]",
+      then: {
+        function: import_spectral_functions.falsy
+      }
+    },
+    "post-relationships": {
+      description: `If relationships exist in POST request, \`data\` is REQUIRED
+
+**Invalid Example:**
+\`\`\`yaml
+relationships:
+  type: object
+  properties:
+    manufacturer:
+      type: object
+      properties:
+        links:
+          type: object
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+relationships:
+  type: object
+  properties:
+    manufacturer:
+      type: object
+      properties:
+        data:
+          type: object
+        links:
+          type: object
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating",
+      message: "If POST relationships are present, they must include data.",
+      severity: DiagnosticSeverity.Error,
+      given: "#POSTRelationships",
+      then: {
+        field: "required",
+        function: import_spectral_functions.schema,
+        functionOptions: {
+          schema: {
+            type: "array",
+            items: {
+              type: "string",
+              anyOf: [
+                {
+                  enum: ["data"]
+                },
+                {
+                  enum: ["data", "links", "meta"]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "403-response-code": {
+      description: `Servers **MUST** document and support response code **403** for all paths
+
+**Invalid Example:**
+\`\`\`yaml
+paths:
+  /myResources:
+    get:
+      responses:
+        '200':
+          $ref: '#/components/responses/MyResource_Collection'
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+paths:
+  /myResources:
+    get:
+      responses:
+        '200':
+          $ref: '#/components/responses/MyResource_Collection'
+        '403':
+          $ref: '#/components/responses/403Error'
+\`\`\``,
+      message: "Document a 403 response for every operation.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths..responses",
+      then: {
+        field: "403",
+        function: import_spectral_functions.truthy
+      }
+    },
+    "201-response-location-header": {
+      description: `A POST 201 response **SHOULD** return a \`Location\` header identifying the location of the newly created resource.
+
+**Valid Example:**
+\`\`\`yaml
+headers:
+  Location:
+    schema:
+      type: string
+      format: uri
+    example: 'http://example.com/photos/550e8400-e29b-41d4-a716-446655440000'
+content:
+  application/vnd.api+json:
+    schema:
+    type: object
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating-responses",
+      message: "POST 201 responses should include a Location header.",
+      severity: DiagnosticSeverity.Information,
+      given: "$.paths[*][post].responses.201.headers",
+      then: {
+        field: "Location",
+        function: import_spectral_functions.defined
+      }
+    },
+    "post-201-response": {
+      description: `A POST 201 response **MUST** return a document that contains the resource as primary data.
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating-responses",
+      message: "POST 201 responses should include primary resource data using keys data, meta, jsonapi, or links.",
+      severity: DiagnosticSeverity.Information,
+      given: "$.paths[*][post].responses.201.content[application/vnd.api+json].schema",
+      then: {
+        field: "required",
+        function: import_spectral_functions.schema,
+        functionOptions: {
+          schema: {
+            type: "array",
+            items: {
+              type: "string",
+              enum: ["data", "meta", "jsonapi", "links"]
+            }
+          }
+        }
+      }
+    },
+    "post-2xx-response-codes": {
+      description: `\`POST\` requests **MUST** support one Of the following 2xx codes: 201, 202 or 204
+
+**Invalid Example:**
+\`\`\`yaml
+paths:
+  /myResources:
+    post:
+      responses:
+        '404':
+          $ref: '#/components/responses/404Error'
+\`\`\`
+
+**Valid Examples:**
+\`\`\`yaml
+paths:
+  /myResources:
+    post:
+      responses:
+        '201':
+          $ref: '#/components/responses/MyResource_Single'
+        '404':
+          $ref: '#/components/responses/404Error'
+
+paths:
+  /myResources:
+    post:
+      responses:
+        '202':
+          description: Accepted.
+        '404':
+          $ref: '#/components/responses/404Error'
+
+paths:
+  /myResources:
+    post:
+      responses:
+        '204':
+          description: Successful Operation. No Content.
+        '404':
+          $ref: '#/components/responses/404Error'  
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating-responses",
+      message: "POST operations must define at least one success response: 201, 202, or 204.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths[*][post].responses",
+      then: {
+        function: import_spectral_functions.schema,
+        functionOptions: {
+          dialect: "draft2020-12",
+          schema: {
+            type: "object",
+            anyOf: [
+              {
+                required: ["201"]
+              },
+              {
+                required: ["202"]
+              },
+              {
+                required: ["204"]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "post-409-response-code": {
+      description: `\`POST\` requests **MUST** document and support response code 409
+
+**Invalid Example:**
+\`\`\`yaml
+paths:
+  /myResources:
+    post:
+      responses:
+        '201':
+          $ref: '#/components/responses/MyResource_Single'
+\`\`\`
+
+**Valid Examples:**
+\`\`\`yaml
+paths:
+  /myResources:
+    post:
+      responses:
+        '201':
+          $ref: '#/components/responses/MyResource_Single'
+        '409':
+          $ref: '#/components/responses/409Error'
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating-responses",
+      message: "POST operations must define a 409 conflict response.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths[*][post].responses",
+      then: {
+        field: "409",
+        function: import_spectral_functions.truthy
+      }
+    },
+    "post-409-response": {
+      description: `POST 409 response **SHOULD** return \`source\` property to identify conflict
+
+**Example:**
+\`\`\`yaml
+# Example showing use of source in error object.
+
+type: array
+maxItems:1
+items:
+    type: object
+    properties:
+      id:
+        type: string
+      status:
+        type: string
+        const: 409
+      title:
+        type: string
+        const: Conflict
+      source:
+        type: object
+        properties:
+          pointer:
+            oneOf:
+              - type: string
+                format: json-pointer
+                example: /data/attributes/id
+              - type: array
+                items:
+                  type: string
+                  format: json-pointer
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-creating-responses).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating-responses",
+      message: "POST 409 responses should include source to explain the conflict.",
+      severity: DiagnosticSeverity.Information,
+      given: "$.paths[*][post].responses[409].content['application/vnd.api+json'].schema.properties",
+      then: {
+        field: "source",
+        function: import_spectral_functions.truthy
+      }
+    },
+    "put-disallowed": {
+      description: `\`PUT\` verb is not allowed in jsonapi, use \`PATCH\` instead.
+
+**Invalid Example:**
+\`\`\`yaml
+/myResources/{id}:
+    put:
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+/myResources/{id}:
+    patch:
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-updating",
+      message: "PUT is not allowed by JSON:API; use PATCH.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths[*][put]",
+      then: [
+        {
+          function: import_spectral_functions.falsy
+        }
+      ]
+    },
+    "patch-requests-single-object": {
+      description: `PATCH requests **MUST** only contain a single resource object
+
+**Invalid Example:**
+\`\`\`yaml
+content:
+  application/vnd.api+json:
+    schema:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+            type: array
+            items: 
+              $ref: '#/components/schemas/MyResourcePostObject'
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+content:
+  application/vnd.api+json:
+    schema:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: '#/components/schemas/MyResourcePostObject'
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating",
+      message: "PATCH request data must be a single resource object, not an array.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths..patch.requestBody.content[application/vnd.api+json].schema.properties.data[?(@property==='type' && @ === 'array')]",
+      then: {
+        function: import_spectral_functions.falsy
+      }
+    },
+    "patch-relationships": {
+      description: `If relationships exist in PATCH request, \`data\` is REQUIRED
+
+**Invalid Example:**
+\`\`\`yaml
+relationships:
+  type: object
+  properties:
+    manufacturer:
+      type: object
+      properties:
+        links:
+          type: object
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+relationships:
+  type: object
+  properties:
+    manufacturer:
+      type: object
+      properties:
+        data:
+          type: object
+        links:
+          type: object
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-resource-relationships).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-creating",
+      message: "If PATCH relationships are present, they must include data.",
+      severity: DiagnosticSeverity.Error,
+      given: "#PATCHRelationships",
+      then: {
+        field: "required",
+        function: import_spectral_functions.schema,
+        functionOptions: {
+          schema: {
+            type: "array",
+            items: {
+              type: "string",
+              anyOf: [
+                {
+                  enum: ["data"]
+                },
+                {
+                  enum: ["data", "links", "meta"]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "patch-2xx-response-codes": {
+      description: `\`PATCH\` requests **MUST** support at least one of the following 2xx codes: 200, 202 or 204
+
+**Invalid Example:**
+\`\`\`yaml
+paths:
+  /myResources/{id}:
+    patch:
+      responses:
+        '404':
+          $ref: '#/components/responses/404Error'
+\`\`\`
+
+**Valid Examples:**
+\`\`\`yaml
+paths:
+  /myResources/{id}:
+    patch:
+      responses:
+        '200':
+          $ref: '#/components/responses/MyResource_Single'
+        '404':
+          $ref: '#/components/responses/404Error'
+
+paths:
+  /myResources/{id}:
+    patch:
+      responses:
+        '202':
+          description: Accepted.
+        '404':
+          $ref: '#/components/responses/404Error'
+
+paths:
+  /myResources/{id}:
+    patch:
+      responses:
+        '204':
+          description: Successful Operation. No Content.
+        '404':
+          $ref: '#/components/responses/404Error'  
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-responses).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-updating-responses",
+      message: "PATCH operations must define at least one success response: 200, 202, or 204.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths[*][patch].responses",
+      then: {
+        function: import_spectral_functions.schema,
+        functionOptions: {
+          dialect: "draft2020-12",
+          schema: {
+            type: "object",
+            anyOf: [
+              {
+                required: ["200"]
+              },
+              {
+                required: ["202"]
+              },
+              {
+                required: ["204"]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "patch-404-response-code": {
+      description: `\`PATCH\` requests **MUST** support response code 404
+
+**Invalid Example:**
+\`\`\`yaml
+paths:
+  /myResources/{id}:
+    patch:
+      responses:
+        '200':
+          $ref: '#/components/responses/MyResource_Single'
+\`\`\`
+
+**Valid Examples:**
+\`\`\`yaml
+paths:
+  /myResources/{id}:
+    patch:
+      responses:
+        '200':
+          $ref: '#/components/responses/MyResource_Single'
+        '404':
+          $ref: '#/components/responses/404Error'
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-responses).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-updating-responses",
+      message: "PATCH operations must define a 404 response.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths[*][patch].responses",
+      then: {
+        field: "404",
+        function: import_spectral_functions.truthy
+      }
+    },
+    "patch-409-response-code": {
+      description: `\`PATCH\` requests **MUST** document and support response code 409
+
+**Invalid Example:**
+\`\`\`yaml
+paths:
+  /myResources/{id}:
+    patch:
+      responses:
+        '200':
+          $ref: '#/components/responses/MyResource_Single'
+\`\`\`
+
+**Valid Examples:**
+\`\`\`yaml
+paths:
+  /myResources/{id}:
+    patch:
+      responses:
+        '200':
+          $ref: '#/components/responses/MyResource_Single'
+        '409':
+          $ref: '#/components/responses/409Error'
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-responses).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-updating-responses",
+      message: "PATCH operations must define a 409 conflict response.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths[*][patch].responses",
+      then: {
+        field: "409",
+        function: import_spectral_functions.truthy
+      }
+    },
+    "patch-409-response": {
+      description: `PATCH 409 response **SHOULD** return \`source\` property to identify conflict
+
+**Example:**
+\`\`\`yaml
+# Example showing use of source in error object.
+# Examples describe a conflict between the {id} parameter and the id field in the request body.
+
+type: array
+items:
+    type: object
+    properties:
+      id:
+        type: string
+      status:
+        type: string
+        enum:
+          - 409
+      title:
+        type: string
+        enum:
+          - Conflict
+      source:
+        type: object
+        properties:
+          pointer:
+            oneOf:
+              - type: string
+                format: json-pointer
+                example: /data/attributes/id
+              - type: array
+                items:
+                  type: string
+                  format: json-pointer
+          parameter:
+            type: string
+            example: id
+maxItems:1
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-updating-responses).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-updating-responses",
+      message: "PATCH 409 responses should include source to explain the conflict.",
+      severity: DiagnosticSeverity.Information,
+      given: "$.paths[*][patch].responses",
+      then: {
+        field: "409",
+        function: import_spectral_functions.falsy
+      }
+    },
+    "delete-2xx-response-codes": {
+      description: `\`DELETE\` requests **MUST** support at least one of the following 2xx codes: 200, 202, or 204
+
+**Invalid Example:**
+\`\`\`yaml
+paths:
+  /myResources/{id}:
+    delete:
+      responses:
+        '404':
+          $ref: '#/components/responses/404Error'
+\`\`\`
+
+**Valid Examples:**
+\`\`\`yaml
+paths:
+  /myResources/{id}:
+    delete:
+      responses:
+        '200':
+          $ref: '#/components/responses/delete_meta_data'
+        '404':
+          $ref: '#/components/responses/404Error'
+
+paths:
+  /myResources/{id}:
+    delete:
+      responses:
+        '202':
+          description: Accepted.
+        '404':
+          $ref: '#/components/responses/404Error'
+
+paths:
+  /myResources/{id}:
+    delete:
+      responses:
+        '204':
+          description: Successful Operation. No Content.
+        '404':
+          $ref: '#/components/responses/404Error'  
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-deleting-responses).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-deleting-responses",
+      message: "DELETE operations must define at least one success response: 200, 202, or 204.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths[*][delete].responses",
+      then: {
+        function: import_spectral_functions.schema,
+        functionOptions: {
+          dialect: "draft2020-12",
+          schema: {
+            type: "object",
+            anyOf: [
+              {
+                required: ["200"]
+              },
+              {
+                required: ["202"]
+              },
+              {
+                required: ["204"]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "delete-404-response-code": {
+      description: `\`DELETE\` requests **MUST** support response code 404
+
+**Invalid Example:**
+\`\`\`yaml
+paths:
+  /myResources/{id}:
+    delete:
+      responses:
+        '204':
+          description: Successful Operation. No Content.
+\`\`\`
+
+**Valid Examples:**
+\`\`\`yaml
+paths:
+  /myResources/{id}:
+    delete:
+      responses:
+        '204':
+          description: Successful Operation. No Content.
+        '404':
+          $ref: '#/components/responses/404Error'
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#crud-deleting-responses).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#crud-deleting-responses",
+      message: "DELETE operations must define a 404 response.",
+      severity: DiagnosticSeverity.Error,
+      given: "$.paths[*][delete].responses",
+      then: {
+        field: "404",
+        function: import_spectral_functions.truthy
+      }
+    },
+    "error-object-schema": {
+      description: `error objects **MUST** follow schema
+
+**Schema Rules:**
+- **MAY** contain the following fields: \`id\`,\`links\`,\`status\`,\`code\`,\`title\`,\`detail\`,\`source\`,\`meta\`
+- \`id\`,\`status\`,\`code\`,\`title\`,\`detail\` **MUST** be an \`object\`
+- \`links\`,\`source\`,\`meta\` **MUST** be an \`object\`
+
+**Valid Example:** Using all fields
+\`\`\`yaml
+type: object
+description: JSON:API Error Object
+properties:
+  id:
+    type: string
+    description: a unique identifier for this particular occurrence of the problem
+  links:
+    type: object
+    description: links that lead to further detail about the particular occurrence of the problem
+    properties:
+      about:
+        $ref: '#/components/schemas/Link'
+  status:
+    type: string
+    description: the HTTP status code applicable to this problem
+  code:
+    type: string
+    description: an application-specific error code
+  title:
+    type: string
+    description:  a human-readable summary specific of the problem. Usually the http status friendly name.
+  detail:
+    type: string
+    description:  a human-readable explanation specific to this occurrence of the problem
+  source:
+    type: object
+    description: an object containing references to the source of the error
+    properties:
+      pointer:
+        description: a JSON Pointer [RFC6901] to the associated entity in the request document
+        oneOf:
+          - type: string
+            format: json-pointer
+          - type: array
+            items:
+              type: string
+              format: json-pointer
+      parameter:
+        description: a string indicating which URI query parameter caused the error
+        type: string
+  meta:
+    type: object
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#error-objects).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#error-objects",
+      message: "Error objects must follow the JSON:API error object schema.",
+      severity: DiagnosticSeverity.Error,
+      given: "#ErrorObjects",
+      then: [
+        {
+          field: "@key",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: [
+              "id",
+              "links",
+              "status",
+              "code",
+              "title",
+              "detail",
+              "source",
+              "meta"
+            ]
+          }
+        },
+        {
+          field: "links.type",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["object"]
+          }
+        },
+        {
+          field: "source.type",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["object"]
+          }
+        },
+        {
+          field: "meta.type",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["object"]
+          }
+        },
+        {
+          field: "status.type",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["string"]
+          }
+        },
+        {
+          field: "code.type",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["string"]
+          }
+        },
+        {
+          field: "title.type",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["string"]
+          }
+        },
+        {
+          field: "detail.type",
+          function: import_spectral_functions.enumeration,
+          functionOptions: {
+            values: ["string"]
+          }
+        }
+      ]
+    },
+    "error-object-links": {
+      description: `error object \`links\` property **MUST** contain an \`about\` link.
+
+**Invalid Example:**
+\`\`\`yaml
+# Error Object
+# ...
+links:
+  type: object
+  description: links that lead to further detail about the particular occurrence of the problem
+  properties:
+    self:
+      $ref: '#/components/schemas/Link'
+\`\`\`
+
+**Valid Example:**
+\`\`\`yaml
+# Error Object
+# ...
+links:
+  type: object
+  description: links that lead to further detail about the particular occurrence of the problem
+  properties:
+    about:
+      $ref: '#/components/schemas/Link'
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#error-objects).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#error-objects",
+      message: "Error object links must include about.",
+      severity: DiagnosticSeverity.Error,
+      given: "#ErrorObjects.links.properties",
+      then: [
+        {
+          field: "about",
+          function: import_spectral_functions.truthy
+        }
+      ]
+    },
+    "error-object-source-schema": {
+      description: `error object \`source\` **MUST** follow schema
+
+**Schema Rules:**
+- \`source\` **MUST** be an \`object\`
+- **MUST** contain at least one of: \`pointer\` or \`parameter\`
+- \`parameter\` **MUST** be a \`string\`
+- \`pointer\` **MUST** be a single json-pointer[[RFC6901]](https://tools.ietf.org/html/rfc6901) string or array of json-pointer strings
+
+**Valid Example:**
+\`\`\`yaml
+type: object
+description: an object containing references to the source of the error
+properties:
+  pointer:
+    description: a JSON Pointer [RFC6901] to the associated entity in the request document
+    oneOf:
+      - type: string
+        format: json-pointer
+      - type: array
+        items:
+          type: string
+          format: json-pointer
+  parameter:
+    description: a string indicating which URI query parameter caused the error
+    type: string
+\`\`\`
+
+Related specification information can be found [here](https://jsonapi.org/format/1.1/#error-objects).`,
+      documentationUrl: "https://jsonapi.org/format/1.1/#error-objects",
+      message: "Error object source must include pointer or parameter and match schema.",
+      severity: DiagnosticSeverity.Error,
+      given: "#ErrorObjects.source",
+      then: {
+        field: "properties",
+        function: import_spectral_functions.schema,
+        functionOptions: {
+          dialect: "draft2020-12",
+          schema: {
+            type: "object",
+            properties: {
+              parameter: {
+                type: "object",
+                properties: {
+                  type: {
+                    type: "string",
+                    enum: ["string"]
+                  }
+                }
+              },
+              pointer: {
+                type: "object",
+                properties: {
+                  oneOf: {
+                    type: "array",
+                    items: {
+                      oneOf: [
+                        {
+                          type: "object",
+                          required: ["type", "format"],
+                          properties: {
+                            type: {
+                              type: "string",
+                              enum: ["string"]
+                            },
+                            format: {
+                              type: "string",
+                              enum: ["json-pointer"]
+                            }
+                          }
+                        },
+                        {
+                          type: "object",
+                          properties: {
+                            type: {
+                              type: "string",
+                              enum: ["array"]
+                            },
+                            items: {
+                              type: "object",
+                              required: ["type", "format"],
+                              properties: {
+                                type: {
+                                  type: "string",
+                                  enum: ["string"]
+                                },
+                                format: {
+                                  type: "string",
+                                  enum: ["json-pointer"]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+};
+module.exports = module.exports.default;
+//# sourceMappingURL=ruleset.js.map

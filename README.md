@@ -1,28 +1,109 @@
-# spectral-jsonapi-ruleset
+# Spectral JSON:API Ruleset
 
-![Node.js CI](https://github.com/jmlue42/spectral-jsonapi-ruleset/workflows/Node.js%20CI/badge.svg)
-![CodeQL](https://github.com/jmlue42/spectral-jsonapi-ruleset/workflows/CodeQL/badge.svg)
+![Node.js CI](https://github.com/philsturgeon/spectral-jsonapi/workflows/Node.js%20CI/badge.svg)
 
-> A [Stoplight/Spectral](https://github.com/stoplightio/spectral) linting ruleset for the [JSON:API specification v1.0](https://jsonapi.org/format/1.0).
+Lint your OpenAPI against JSON:API guidance with a TypeScript-built Spectral ruleset.
 
-## Installation
-For ways to integrate this ruleset into your Spectral linting suite. See [Sharing & Distributing Rulesets](https://meta.stoplight.io/docs/spectral/docs/guides/7-sharing-rulesets.md) at <https://meta.stoplight.io/>
+This ruleset turns JSON:API guidance into Spectral checks so teams can catch problems early in editors, CI, and pull requests.
 
-## Organization
+## ⚡️ Quick Start
 
-`.spectral.yml` - Spectral Ruleset
+```bash
+npm install --save-dev spectral-jsonapi @stoplight/spectral-cli
+```
 
-The ruleset `extends` - `spectral:oas`, spectral's built-in OAS linting rules.
+Create a local ruleset file:
 
-The rules are generally organized by the JSON:API specification section the rule is mentioned in. Each rule notes the section url it realates to.
+```yaml
+# .spectral.yaml
+extends:
+	- spectral:oas
+	- spectral-jsonapi
+```
 
-`examples` folder contains valid and invalid OAS3.1 examples
+Lint your OpenAPI description:
 
-## Contributing
-In lieu of a formal style guide (I know... ironic :grin:):
-- Take care to maintain the existing coding format.
-- Make needed adjustments to valid example
-- Verify all linting PASS: `npm test`
+```bash
+spectral lint api/openapi.yaml
+```
 
-## License
-[MIT License](https://github.com/jmlue42/spectral-jsonapi-ruleset/blob/main/LICENSE)
+## 🔨 Usage
+
+### Use as npm package
+
+Use this when the project already installs dependencies with npm.
+
+```yaml
+# .spectral.yaml
+extends:
+	- spectral:oas
+	- spectral-jsonapi
+```
+
+### Use legacy YAML directly from GitHub
+
+Use this when you want to consume the generated YAML ruleset without installing the package:
+
+```yaml
+extends:
+	- "https://raw.githubusercontent.com/philsturgeon/spectral-jsonapi/refs/heads/main/.spectral.yml"
+```
+
+Once you have the ruleset set up, you can run Spectral in the same directory as your `.spectral.yml` ruleset, and it will include the JSON:API rules in its check
+
+```bash
+spectral lint api/openapi.yaml
+```
+
+This does not include `spectral:oas` rules, so if you want those as well, you can extend both:
+
+```yaml
+extends:
+  - "https://raw.githubusercontent.com/philsturgeon/spectral-jsonapi/refs/heads/main/.spectral.yml"
+  - spectral:oas
+```
+
+## Rule Opt-Outs
+
+### resource-object-id-required
+
+Use this opt-out only when a response schema is intentionally not a standard JSON:API resource object (for example, ephemeral computed resources without stable IDs).
+
+Set `x-jsonapi-virtual-resource: true` on the resource schema to skip the `resource-object-id-required` warning.
+
+```yaml
+components:
+	schemas:
+		AvailableSlotResource:
+			type: object
+			x-jsonapi-virtual-resource: true
+			required:
+				- type
+				- attributes
+			properties:
+				type:
+					type: string
+					enum:
+						- availableSlot
+				attributes:
+					$ref: "#/components/schemas/AvailableSlotAttributes"
+```
+
+## 👥 Contributing
+
+For testing approach and contributor workflow, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## 🎉 Thanks
+
+- [Jeff Marquez](https://www.linkedin.com/in/jeffmarquez)
+- [Ali Fazal](https://linkedin.com/in/ali-fazal-424904140)
+- Ananya Poddar
+- Anthony MacAllister
+
+## 📜 License
+
+MIT. See [LICENSE](LICENSE).
+
+## 🌳 Sponsor
+
+If you'd like to say thanks for this style guide, consider supporting [Protect Earth](https://protect.earth/donate?ref=spectral-jsonapi), a charity co-founded by APIs You Won't Hate's co-founder Phil Sturgeon, focused on nature-based climate solutions. Phil spends most of his time planting trees and re-wetting bogs now, especially at the [Warleigh Nature Reserve](https://www.crowdfunder.co.uk/p/warleigh-nature-reserve), so this is a great way to support his work and the planet at the same time.
