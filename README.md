@@ -15,8 +15,8 @@ Create a local ruleset file:
 ```yaml
 # .spectral.yaml
 extends:
-	- spectral:oas
-	- "@apisyouwonthate/spectral-jsonapi"
+  - spectral:oas
+  - "@apisyouwonthate/spectral-jsonapi"
 ```
 
 Lint your OpenAPI description:
@@ -34,8 +34,8 @@ Use this when the project already installs dependencies with npm.
 ```yaml
 # .spectral.yaml
 extends:
-	- spectral:oas
-	- "@apisyouwonthate/spectral-jsonapi"
+  - spectral:oas
+  - "@apisyouwonthate/spectral-jsonapi"
 ```
 
 ### Use legacy YAML directly from GitHub
@@ -44,7 +44,7 @@ Use this when you want to consume the generated YAML ruleset without installing 
 
 ```yaml
 extends:
-	- "https://raw.githubusercontent.com/apisyouwonthate/spectral-jsonapi/refs/heads/main/.spectral.yml"
+  - "https://raw.githubusercontent.com/apisyouwonthate/spectral-jsonapi/refs/heads/main/.spectral.yml"
 ```
 
 Once you have the ruleset set up, you can run Spectral in the same directory as your `.spectral.yml` ruleset, and it will include the JSON:API rules in its check
@@ -71,20 +71,20 @@ Set `x-jsonapi-virtual-resource: true` on the resource schema to skip the `resou
 
 ```yaml
 components:
-	schemas:
-		AvailableSlotResource:
-			type: object
-			x-jsonapi-virtual-resource: true
-			required:
-				- type
-				- attributes
-			properties:
-				type:
-					type: string
-					enum:
-						- availableSlot
-				attributes:
-					$ref: "#/components/schemas/AvailableSlotAttributes"
+  schemas:
+    AvailableSlotResource:
+      type: object
+      x-jsonapi-virtual-resource: true
+      required:
+        - type
+        - attributes
+      properties:
+        type:
+          type: string
+          enum:
+            - availableSlot
+        attributes:
+          $ref: "#/components/schemas/AvailableSlotAttributes"
 ```
 
 ## 👥 Contributing

@@ -61,3 +61,17 @@ It is intended to include rules that rely only on Spectral core functions. At th
 - Prefer small, reviewable commits.
 - Include a short summary of what changed and why.
 - Mention any rule behavior changes that may affect downstream users.
+
+## Automated Releases
+
+Releases are automated with semantic-release via GitHub Actions on pushes to `main`.
+
+- Commits should follow Conventional Commits (`feat:`, `fix:`, `feat!:`) so the next version can be calculated correctly.
+- The workflow publishes to npm and creates a GitHub release and tag like `v2.1.0`.
+- Configure repository secret `NPM_TOKEN` with publish access to `@apisyouwonthate/spectral-jsonapi`.
+
+You can test release logic locally in dry-run mode:
+
+```bash
+npm run release -- --dry-run --no-ci
+```
