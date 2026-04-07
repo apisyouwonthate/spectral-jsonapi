@@ -68,10 +68,3 @@ Releases are automated with semantic-release via GitHub Actions on pushes to `ma
 
 - Commits should follow Conventional Commits (`feat:`, `fix:`, `feat!:`) so the next version can be calculated correctly.
 - The workflow publishes to npm and creates a GitHub release and tag like `v2.1.0`.
-- Configure repository secret `NPM_TOKEN` with publish access to `@apisyouwonthate/spectral-jsonapi`.
-
-You can test release logic locally in dry-run mode:
-
-```bash
-npm run release -- --dry-run --no-ci
-```
