@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The `content-type` rule now allows other non-JSON content, but still demands all JSON requests/responses use `application/vnd.api+json`.
 
-## [2.0.1] - 2026-03-15
+## [2.0.0] - 2026-04-01
 
 ### Added
 - Created TypeScript version of the ruleset. YAML still available.
