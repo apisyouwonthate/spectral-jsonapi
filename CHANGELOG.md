@@ -1,33 +1,10 @@
-## [1.1.0](https://github.com/apisyouwonthate/spectral-jsonapi/compare/v1.0.0...v1.1.0) (2026-04-07)
-
-### Features
-
-* bumped major version ([#10](https://github.com/apisyouwonthate/spectral-jsonapi/issues/10)) ([5625f81](https://github.com/apisyouwonthate/spectral-jsonapi/commit/5625f812efba490a7436fcff87a12fa6d4cd3f68))
-
-## 1.0.0 (2026-04-07)
-
-### Features
-
-* add fetching-resource-200 and fetching-resource-404 ([894bedf](https://github.com/apisyouwonthate/spectral-jsonapi/commit/894bedfe24d937b9d27e7c211c25ed3198a248c4))
-
-### Performance Improvements
-
-* remove redundant aliases ([e1db1ff](https://github.com/apisyouwonthate/spectral-jsonapi/commit/e1db1ffbd1e26066ad7578de6edc3e3738dc0583))
-
-# Changelog
-
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## [2.0.1] - 2026-04-07
+## 2.0.1 (2026-04-07)
 
 ### Changed
 
 - The `content-type` rule now allows other non-JSON content, but still demands all JSON requests/responses use `application/vnd.api+json`.
 
-## [2.0.0] - 2026-04-01
+## 2.0.0 (2026-04-01)
 
 ### Added
 - Created TypeScript version of the ruleset. YAML still available.
