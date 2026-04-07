@@ -521,7 +521,9 @@ This ruleset can be found on GitHub: [spectral-jsonapi](https://github.com/phils
   rules: {
     "content-type": {
       description: `
-Requests and responses **MUST** all use the content type of \`application/vnd.api+json\`.
+JSON payloads in requests and responses **MUST** use the content type of \`application/vnd.api+json\`.
+
+Non-JSON media types can be used for endpoints that do not exchange JSON:API documents.
 
 **Invalid Examples:**
 \`\`\`yaml
@@ -549,14 +551,14 @@ responses:
 
 Related specification information can be found [here](https://jsonapi.org/format/1.1/#content-negotiation-servers).`,
       documentationUrl: "https://jsonapi.org/format/1.1/#content-negotiation",
-      message: "Use application/vnd.api+json for all request and response bodies.",
+      message: "Use application/vnd.api+json for JSON request and response bodies.",
       severity: DiagnosticSeverity.Error,
       given: ["$.paths..requestBody.content", "$.paths..responses..content"],
       then: {
         field: "@key",
         function: import_spectral_functions.pattern,
         functionOptions: {
-          match: "^application/vnd\\.api\\+json;?"
+          notMatch: "^(?!application/vnd\\.api\\+json(?:\\s*;.*)?$)[^/]+/(?:[^;]+\\+json|json)(?:\\s*;.*)?$"
         }
       }
     },

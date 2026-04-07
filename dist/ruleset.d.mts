@@ -28,7 +28,7 @@ declare const _default: {
                 field: string;
                 function: _stoplight_spectral_core.RulesetFunctionWithValidator<string, _stoplight_spectral_functions.PatternOptions>;
                 functionOptions: {
-                    match: string;
+                    notMatch: string;
                 };
             };
         };
