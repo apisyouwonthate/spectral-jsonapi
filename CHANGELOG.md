@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/apisyouwonthate/spectral-jsonapi/compare/v1.0.0...v1.1.0) (2026-04-07)
+
+### Features
+
+* bumped major version ([#10](https://github.com/apisyouwonthate/spectral-jsonapi/issues/10)) ([5625f81](https://github.com/apisyouwonthate/spectral-jsonapi/commit/5625f812efba490a7436fcff87a12fa6d4cd3f68))
+
 ## 1.0.0 (2026-04-07)
 
 ### Features
