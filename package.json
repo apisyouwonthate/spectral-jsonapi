@@ -1,6 +1,6 @@
 {
   "name": "@apisyouwonthate/spectral-jsonapi",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "description": "A Spectral ruleset for JSON:API, built as TypeScript.",
   "main": "dist/ruleset.js",
   "module": "dist/ruleset.mjs",
