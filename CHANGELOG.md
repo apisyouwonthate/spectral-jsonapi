@@ -1,3 +1,9 @@
+## [2.1.1](https://github.com/apisyouwonthate/spectral-jsonapi/compare/v2.1.0...v2.1.1) (2026-04-21)
+
+### Bug Fixes
+
+* conflict source properties must be in error objects ([cfce5c8](https://github.com/apisyouwonthate/spectral-jsonapi/commit/cfce5c8686864b1a7d0bfba5ab1a0797d83b19d1))
+
 ## [2.1.0](https://github.com/apisyouwonthate/spectral-jsonapi/compare/v2.0.0...v2.1.0) (2026-04-07)
 
 ### Changed
