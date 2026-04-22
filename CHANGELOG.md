@@ -1,3 +1,9 @@
+## [2.2.0](https://github.com/apisyouwonthate/spectral-jsonapi/compare/v2.1.1...v2.2.0) (2026-04-22)
+
+### Features
+
+* rule page-parameter now allows page[foo] without deepObject ([#11](https://github.com/apisyouwonthate/spectral-jsonapi/issues/11)) ([749ead6](https://github.com/apisyouwonthate/spectral-jsonapi/commit/749ead6721268bb432887636a0095599353caadf))
+
 ## [2.1.1](https://github.com/apisyouwonthate/spectral-jsonapi/compare/v2.1.0...v2.1.1) (2026-04-21)
 
 ### Bug Fixes
