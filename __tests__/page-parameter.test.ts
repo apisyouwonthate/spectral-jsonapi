@@ -9,7 +9,45 @@ describe("Rule page-parameter", () => {
     spectral = createWithRules(["page-parameter"]);
   });
 
-  it("page uses deepObject but invalid member types", async () => {
+  it("invalid: single page parameter must use deepObject", async () => {
+    await expectRuleErrors(
+      spectral,
+      "page-parameter",
+      {
+        ...openApiBase,
+        paths: {
+          "/articles": {
+            get: {
+              parameters: [
+                {
+                  name: "page",
+                  in: "query",
+                  style: "form",
+                  schema: {
+                    type: "object",
+                    properties: {
+                      limit: { type: "integer", format: "int32" },
+                    },
+                  },
+                },
+              ],
+              responses: { "200": { description: "ok" } },
+            },
+          },
+        },
+      },
+      [
+        {
+          message:
+            "page query parameters must use either deepObject page or page[...] query parameters.",
+          path: ["paths", "/articles", "get", "parameters", "0", "style"],
+          severity: DiagnosticSeverity.Error,
+        },
+      ],
+    );
+  });
+
+  it("invalid: deepObject page parameter set but no defined properties lay within", async () => {
     await expectRuleErrors(
       spectral,
       "page-parameter",
@@ -25,9 +63,7 @@ describe("Rule page-parameter", () => {
                   style: "deepObject",
                   schema: {
                     type: "object",
-                    properties: {
-                      limit: { type: "string" },
-                    },
+                    properties: {},
                   },
                 },
               ],
@@ -39,7 +75,7 @@ describe("Rule page-parameter", () => {
       [
         {
           message:
-            "page must be a deepObject query parameter that matches the pagination schema.",
+            "page query parameters must use either deepObject page or page[...] query parameters.",
           path: [
             "paths",
             "/articles",
@@ -48,8 +84,6 @@ describe("Rule page-parameter", () => {
             "0",
             "schema",
             "properties",
-            "limit",
-            "type",
           ],
           severity: DiagnosticSeverity.Error,
         },
@@ -57,7 +91,7 @@ describe("Rule page-parameter", () => {
     );
   });
 
-  it("cursor pagination shape passes", async () => {
+  it("valid: deepObject page parameter passes when it has properties", async () => {
     await expectRuleErrors(
       spectral,
       "page-parameter",
@@ -77,6 +111,42 @@ describe("Rule page-parameter", () => {
                       cursor: { type: "string" },
                       limit: { type: "integer", format: "int32" },
                     },
+                  },
+                },
+              ],
+              responses: { "200": { description: "ok" } },
+            },
+          },
+        },
+      },
+      [],
+    );
+  });
+
+  it("valid: any page[] parameters pass", async () => {
+    await expectRuleErrors(
+      spectral,
+      "page-parameter",
+      {
+        ...openApiBase,
+        paths: {
+          "/articles": {
+            get: {
+              parameters: [
+                {
+                  name: "page[size]",
+                  in: "query",
+                  required: false,
+                  schema: {
+                    type: "integer",
+                  },
+                },
+                {
+                  name: "page[anything]",
+                  in: "query",
+                  required: false,
+                  schema: {
+                    type: "integer",
                   },
                 },
               ],

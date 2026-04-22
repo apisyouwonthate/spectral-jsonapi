@@ -1903,129 +1903,135 @@ Related specification information can be found [here](https://jsonapi.org/format
       ],
     },
     "page-parameter": {
-      description: `\`page\` query param **MUST** follow schema
+      description: `\`page\` query parameters **MUST** follow schema
 
 **Schema Rules:**
-- **MUST** be type \`object\`
-- **MUST** be style \`deepObject\`
-- contents depend on strategy:
+- Either define a single \`page\` query parameter using \`deepObject\`
+- Or define multiple query parameters using bracket notation like \`page[size]\`
+- Either way, the page[foo] parameters will vary by pagination strategy:
   - cursor: \`string\` \`cursor\` and \`int32\` \`limit\`
   - offset: \`int32\` \`offset\` and \`int32\` \`limit\`
 
 **Valid Examples:**
 \`\`\`yaml
-name: page
-description: Paging parameter, cursor based.
-in: query
-schema:
-  type: object
-  required: ["cursor","limit"]
-  properties:
-    cursor:
-      type: string
-    limit:
-      type: integer
-      format: int32
-style: deepObject
+- name: page
+  description: Paging parameter, cursor based.
+  in: query
+  style: deepObject
+  schema:
+    type: object
+    required: ["cursor", "limit"]
+    properties:
+      cursor:
+        type: string
+      limit:
+        type: integer
+        format: int32
 
-name: page
-description: Paging parameter, offset based.
-in: query
-schema:
-  type: object
-  required: ["offset","limit"]
-  properties:
-    cursor:
-      type: integer
-      format: int32
-    limit:
-      type: integer
-      format: int32
-style: deepObject
+- name: page
+  description: Paging parameter, offset based.
+  in: query
+  style: deepObject
+  schema:
+    type: object
+    required: ["offset","limit"]
+    properties:
+      cursor:
+        type: integer
+        format: int32
+      limit:
+        type: integer
+        format: int32
+
+# Single parameters using bracket notation
+
+- name: page[size]
+  in: query
+  required: false
+  schema:
+    type: integer
+- name: page[limit]
+  in: query
+  required: false
+  schema:
+    type: integer
 \`\`\`
 Example query string:
 - \`/myResources?page[cursor]=fdsJ34lkjSfjsdfk&page[limit]=10\`
 - \`/myResources?page[offset]=2&page[limit]=10\`
+- \`/myResources?page[size]=10&page[number]=2\`
 
 Related specification information can be found [here](https://jsonapi.org/format/1.1/#fetching-pagination).`,
       documentationUrl: "https://jsonapi.org/format/1.1/#fetching-pagination",
       message:
-        "page must be a deepObject query parameter that matches the pagination schema.",
+        "page query parameters must use either deepObject page or page[...] query parameters.",
       severity: DiagnosticSeverity.Error,
-      given: "$.paths..parameters[*][?(@property === 'name' && @ === 'page')]^",
-      then: [
-        {
-          field: "in",
-          function: enumeration,
-          functionOptions: {
-            values: ["query"],
-          },
-        },
-        {
-          field: "style",
-          function: truthy,
-        },
-        {
-          field: "style",
-          function: enumeration,
-          functionOptions: {
-            values: ["deepObject"],
-          },
-        },
-        {
-          field: "schema",
-          function: schema,
-          functionOptions: {
-            dialect: "draft2020-12",
-            schema: {
-              type: "object",
+      given: [
+        "$.paths..parameters[*][?(@property === 'name' && @ === 'page')]^",
+        "$.paths..parameters[*][?(@property === 'name' && @.match(/^page\\[[^\\]]+\\]$/))]^",
+      ],
+      then: {
+        function: schema,
+        functionOptions: {
+          dialect: "draft2020-12",
+          schema: {
+            type: "object",
+            required: ["name", "in", "schema"],
+            if: {
               properties: {
-                type: {
+                name: {
                   type: "string",
-                  enum: ["object"],
+                  const: "page",
                 },
-                properties: {
+              },
+            },
+            then: {
+              required: ["style"],
+              properties: {
+                name: {
+                  type: "string",
+                  const: "page",
+                },
+                in: {
+                  type: "string",
+                  enum: ["query"],
+                },
+                style: {
+                  type: "string",
+                  enum: ["deepObject"],
+                },
+                schema: {
                   type: "object",
-                  additionalProperties: false,
                   properties: {
-                    cursor: {
-                      type: "object",
-                      properties: {
-                        type: {
-                          type: "string",
-                          enum: ["string"],
-                        },
-                      },
+                    type: {
+                      type: "string",
+                      enum: ["object"],
                     },
-                    offset: {
+                    properties: {
                       type: "object",
-                      properties: {
-                        type: {
-                          type: "string",
-                          enum: ["integer"],
-                        },
-                        format: {
-                          type: "string",
-                          enum: ["int32"],
-                        },
-                        minimum: {
-                          type: "integer",
-                          minimum: 0,
-                        },
-                      },
+                      minProperties: 1,
                     },
-                    limit: {
-                      type: "object",
-                      properties: {
-                        type: {
-                          type: "string",
-                          enum: ["integer"],
-                        },
-                        format: {
-                          type: "string",
-                          enum: ["int32"],
-                        },
-                      },
+                  },
+                },
+              },
+            },
+            else: {
+              properties: {
+                name: {
+                  type: "string",
+                  pattern: "^page\\[[^\\]]+\\]$",
+                },
+                in: {
+                  type: "string",
+                  enum: ["query"],
+                },
+                schema: {
+                  type: "object",
+                  required: ["type"],
+                  properties: {
+                    type: {
+                      type: "string",
+                      enum: ["string", "integer", "number"],
                     },
                   },
                 },
@@ -2033,7 +2039,7 @@ Related specification information can be found [here](https://jsonapi.org/format
             },
           },
         },
-      ],
+      },
     },
     "post-requests-single-object": {
       description: `POST requests **MUST** only contain a single resource object
